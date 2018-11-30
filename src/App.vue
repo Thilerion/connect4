@@ -31,7 +31,7 @@ html {
 	--color-p1: #4AA475;
 	--color-p2: #B94626;
 	--color-primary: #E2A02C;
-	--color-secondary: #E5D28F;
+	--color-secondary: 229, 210, 143;
 	font-size: 62.5%;
 }
 
