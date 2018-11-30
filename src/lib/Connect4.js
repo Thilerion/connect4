@@ -144,7 +144,7 @@ class Evaluate {
 	execute() {
 		const options = this.findAllThreats();
 
-		if (options.win) return { win: options.win };
+		if (options.win) return options.win * 10000;
 
 		const evenRowWeight = 30;
 		const oddRowWeight = 20;
@@ -190,7 +190,7 @@ class Evaluate {
 		})
 
 
-		return {score, scoreOne, scoreTwo};
+		return score;
 	}
 }
 
