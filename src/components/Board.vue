@@ -1,7 +1,7 @@
 <template>
 	<div class="board">
-		<div v-for="col in 7" :key="col" class="col">
-			<div v-for="cell in 6" :key="cell" class="cell">
+		<div v-for="(col, x) in board" :key="x" class="col">
+			<div v-for="(cell, y) in col" :key="y" class="cell" :class="{'player-one': cell === P1, 'player-two': cell === P2, 'empty': cell === noPiece}">
 
 			</div>
 		</div>
@@ -9,8 +9,18 @@
 </template>
 
 <script>
-export default {
+import {Game as Connect4Game, PLAYER_ONE, PLAYER_TWO, NO_PIECE} from '../lib/Connect4.js';
+const Game = new Connect4Game().doMove(1).doMove(2).doMove(2);
 
+export default {
+	data() {
+		return {
+			board: Game.grid,
+			P1: PLAYER_ONE,
+			P2: PLAYER_TWO,
+			noPiece: NO_PIECE
+		}
+	}
 }
 </script>
 
@@ -32,6 +42,8 @@ export default {
 	padding-right: 4px;
 	padding-left: 4px;
 	border-right: 2px solid rgba(0, 0, 0, 0.15);
+	display: flex;
+	flex-direction: column-reverse;
 }
 
 .col:last-of-type {
@@ -45,10 +57,22 @@ export default {
 
 .cell {
 	width: 70px;
-	height: 70px;
-	background: var(--color-bg-shadow);
+	height: 70px;	
 	margin: 10px;
 	border-radius: 50%;
+	box-shadow: inset -2px 2px 15px 1px rgba(0, 0, 0, 0.5);
+}
+
+.cell.empty {
+	background: var(--color-bg-shadow);
 	box-shadow: inset -4px 4px 20px 1px rgba(0, 0, 0, 0.1);
+}
+
+.cell.player-one {
+	background: var(--color-p1);
+}
+
+.cell.player-two {
+	background: var(--color-p2);
 }
 </style>

@@ -1,15 +1,15 @@
-const settings = {
+const SETTINGS = {
 	ROWS: 6,
 	COLS: 7
 };
 
-const PLAYER_ONE = -1;
-const PLAYER_TWO = +1;
-const NO_PIECE = 0;
+export const PLAYER_ONE = -1;
+export const PLAYER_TWO = +1;
+export const NO_PIECE = 0;
 
 
-export default class Game {
-	constructor(settings) {
+export class Game {
+	constructor(settings = SETTINGS) {
 		this.rows = settings.ROWS;
 		this.cols = settings.COLS;
 
@@ -75,4 +75,4 @@ export default class Game {
 	}
 }
 
-let g = new Game(settings).doMove(1).doMove(2).doMove(1); //?
+let g = new Game(SETTINGS).doMove(1).doMove(2).doMove(1); //?
