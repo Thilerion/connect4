@@ -1,6 +1,6 @@
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from './Constants.js';
 
-export class Game {
+export default class Game {
 	constructor(settings = SETTINGS) {
 		this.rows = settings.ROWS;
 		this.cols = settings.COLS;

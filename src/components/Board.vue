@@ -9,7 +9,10 @@
 </template>
 
 <script>
-import {Game as Connect4Game, PLAYER_ONE, PLAYER_TWO, NO_PIECE} from '../lib/Connect4.js';
+import Connect4Game from '../lib/Connect4.js';
+import Evaluate from '../lib/Connect4.js';
+import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from '../lib/Constants.js';
+
 const Game = new Connect4Game().doMove(1).doMove(2).doMove(2).doMove(1).doMove(1).doMove(1).doMove(1).doMove(2).doMove(0).doMove(1);
 
 export default {
