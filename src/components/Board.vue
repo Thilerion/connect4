@@ -1,8 +1,11 @@
 <template>
 	<div class="board">
-		<div v-for="(col, x) in board" :key="x" class="col" :class="{full: fullCols[x]}">
-			<div v-for="(cell, y) in col" :key="y" class="cell" :class="{'player-one': cell === P1, 'player-two': cell === P2, 'empty': cell === noPiece}">
-
+		<div v-for="(col, x) in board" :key="x" class="col" :class="{full: fullCols[x]}" @click="makeMove(x)">
+			<div v-for="(cell, y) in col" :key="y" class="cell" :class="{'empty': cell === noPiece}">
+				<transition name="fall-piece">
+				<div class="piece player-one" key="piece-one" v-if="cell === P1"></div>
+				<div class="piece player-two" key="piece-two" v-if="cell === P2"></div>
+				</transition>
 			</div>
 		</div>
 	</div>
@@ -13,7 +16,7 @@ import Connect4Game from '../lib/Connect4.js';
 import Evaluate from '../lib/Connect4.js';
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from '../lib/Constants.js';
 
-const Game = new Connect4Game().doMove(1).doMove(2).doMove(2).doMove(1).doMove(1).doMove(1).doMove(1).doMove(2).doMove(0).doMove(1);
+const Game = new Connect4Game();
 
 export default {
 	data() {
@@ -30,6 +33,11 @@ export default {
 	computed: {
 		fullCols() {
 			return Game.nextPieceAtHeight.map(height => height >= this.rows);
+		}
+	},
+	methods: {
+		makeMove(col) {
+			Game.doMove(col);
 		}
 	}
 }
@@ -91,7 +99,7 @@ export default {
 	height: 70px;	
 	margin: 10px;
 	border-radius: 50%;
-	box-shadow: inset -2px 2px 15px 1px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
 }
 
 .cell.empty {
@@ -99,11 +107,28 @@ export default {
 	box-shadow: inset -4px 4px 20px 1px rgba(0, 0, 0, 0.1);
 }
 
-.cell.player-one {
+.piece {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	box-shadow: inset -2px 2px 15px 1px rgba(0, 0, 0, 0.5);
+}
+
+.piece.player-one {
 	background: var(--color-p1);
 }
 
-.cell.player-two {
+.piece.player-two {
 	background: var(--color-p2);
+}
+
+.fall-piece-enter-active {
+	transition: all 2s ease;
+	position: relative;
+	z-index: 500;
+}
+
+.fall-piece-enter, .fall-piece-leave-to {
+	transform: translateY(-500%);
 }
 </style>
