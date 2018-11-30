@@ -1,5 +1,6 @@
 <template>
 	<div id="app">
+		<h1>connect4</h1>
 		<C4Board/>
 	</div>
 </template>
@@ -16,7 +17,42 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+*, *::before, *::after {
+	box-sizing: inherit;
+}
+
+html {
+	height: 100vh;
+	box-sizing: border-box;
+	--color-bg: #2E2944;
+	--color-p1: #4AA475;
+	--color-p2: #B94626;
+	--color-primary: #E2A02C;
+	--color-secondary: #E5D28F;
+	font-size: 62.5%;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	background-color: var(--color-bg);
+	color: var(--color-secondary);
+	font-family: Ubuntu, sans-serif;
+	font-size: 1.77rem;
+}
+
+h1 {
+	color: var(--color-primary);
+	margin: 0;
+	text-align: center;
+	font-size: 9.7rem;
+	letter-spacing: 0.1rem;
+}
+
 #app {
-	
+	min-height: 100vh;
+	padding-top: 1rem;
 }
 </style>
