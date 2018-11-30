@@ -1,4 +1,5 @@
 <template>
+<div>
 	<div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" :class="{full: fullCols[x]}" @click="makeMove(x)">
 			<div v-for="(cell, y) in col" :key="y" class="cell" :class="{'empty': cell === noPiece}">
@@ -9,11 +10,15 @@
 			</div>
 		</div>
 	</div>
+	<p v-if="gameEnd">The {{winningPlayer.toLowerCase()}} player has won!</p>
+	<p v-else-if="score === 0">The score is even.</p>
+	<p v-else>The {{winningPlayer.toLowerCase()}} player is leading by {{Math.abs(score)}} points.</p>
+</div>
 </template>
 
 <script>
 import Connect4Game from '../lib/Connect4.js';
-import Evaluate from '../lib/Connect4.js';
+import Evaluate from '../lib/Evaluate.js';
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from '../lib/Constants.js';
 
 const Game = new Connect4Game();
@@ -27,17 +32,30 @@ export default {
 			noPiece: NO_PIECE,
 
 			rows: Game.rows,
-			cols: Game.cols
+			cols: Game.cols,
+
+			score: 0
 		}
 	},
 	computed: {
 		fullCols() {
 			return Game.nextPieceAtHeight.map(height => height >= this.rows);
+		},
+		gameEnd() {
+			return Math.abs(this.score) > 1000;
+		},
+		winningPlayer() {
+			return this.score < 0 ? "Red" : "Green";
 		}
 	},
 	methods: {
 		makeMove(col) {
 			Game.doMove(col);
+			this.getScore();
+		},
+		getScore() {
+			const E = new Evaluate(this.board, this.rows, this.cols);
+			this.score = E.execute();
 		}
 	}
 }
@@ -123,7 +141,7 @@ export default {
 }
 
 .fall-piece-enter-active {
-	transition: all 2s ease;
+	transition: all 0s ease;
 	position: relative;
 	z-index: 500;
 }

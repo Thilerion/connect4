@@ -39,7 +39,7 @@ body {
 	min-height: 100vh;
 	margin: 0;
 	background-color: var(--color-bg);
-	color: var(--color-secondary);
+	color: rgb(var(--color-secondary));
 	font-family: Ubuntu, sans-serif;
 	font-size: 1.77rem;
 }

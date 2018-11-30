@@ -71,10 +71,9 @@ export default class Evaluate {
 
 		if (options.win) return options.win * 10000;
 
-		const evenRowWeight = 30;
-		const oddRowWeight = 20;
+		const rowWeight = 25;
 		const colWeight = 20;
-		const diagWeight = 25;
+		const diagWeight = 30;
 		
 		let score = 0;
 		let scoreOne = 0;
@@ -82,8 +81,7 @@ export default class Evaluate {
 
 		options.rowLines.forEach(line => {
 			let lineScore = 0;
-			if (line.x % 2 === 0) lineScore = (line.threat * evenRowWeight);
-			else if (line.x % 2 === 1) lineScore = (line.threat * oddRowWeight);
+			lineScore = (line.threat * rowWeight);
 
 			score += lineScore;
 			if (line.threat === PLAYER_ONE) scoreOne += lineScore;
