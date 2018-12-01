@@ -1,10 +1,10 @@
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from './Constants.js';
 
 export default class Evaluate {
-	constructor(board, cols, rows) {
-		this.board = JSON.parse(JSON.stringify(board));
+	constructor(cols, rows) {
 		this.cols = cols;
 		this.rows = rows;
+		this.board;
 	}
 
 	evaluateLine(line) {
@@ -66,10 +66,11 @@ export default class Evaluate {
 		return line;
 	}
 
-	execute() {
+	execute(board) {
+		this.board = board;
 		const options = this.findAllThreats();
 
-		if (options.win) return options.win * 10000;
+		if (options.win) return { win: options.win };
 
 		const rowWeight = 25;
 		const colWeight = 20;
@@ -111,6 +112,8 @@ export default class Evaluate {
 			if (line.threat === PLAYER_ONE) scoreOne += lineScore;
 			if (line.threat === PLAYER_TWO) scoreTwo += lineScore;
 		})
+
+		this.board = null;
 
 
 		return score;

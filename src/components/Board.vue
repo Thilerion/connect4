@@ -10,6 +10,7 @@
 			</div>
 		</div>
 	</div>
+	<button @click="getBest">Get best</button>
 	<p v-if="gameEnd">The {{winningPlayer.toLowerCase()}} player has won!</p>
 	<p v-else-if="score === 0">The score is even.</p>
 	<p v-else>The {{winningPlayer.toLowerCase()}} player is leading by {{Math.abs(score)}} points.</p>
@@ -19,6 +20,8 @@
 <script>
 import Connect4Game from '../lib/Connect4.js';
 import Evaluate from '../lib/Evaluate.js';
+import getBestMove from '../lib/Minimax.js';
+
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from '../lib/Constants.js';
 
 const Game = new Connect4Game();
@@ -54,8 +57,14 @@ export default {
 			this.getScore();
 		},
 		getScore() {
-			const E = new Evaluate(this.board, this.rows, this.cols);
-			this.score = E.execute();
+			//const E = new Evaluate(this.board, this.rows, this.cols);
+			//this.score = E.execute();
+		},
+		getBest() {
+			let copy = Game.copy();
+			const bestMove = getBestMove(copy, 8);
+			console.log(bestMove);
+			this.makeMove(bestMove);
 		}
 	}
 }

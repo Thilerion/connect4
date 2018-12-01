@@ -16,7 +16,7 @@ export default class Game {
 	}
 
 	copy() {
-		let newGame = new Game(this_settings);
+		let newGame = new Game(this._settings);
 
 		this.history.forEach(hItem => {
 			newGame.doMove(hItem[0]);
