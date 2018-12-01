@@ -2,6 +2,8 @@ import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from './Constants.js';
 
 export default class Game {
 	constructor(settings = SETTINGS) {
+		this._settings = settings;
+
 		this.rows = settings.ROWS;
 		this.cols = settings.COLS;
 
@@ -11,6 +13,15 @@ export default class Game {
 		this.currentPlayer = PLAYER_ONE;
 
 		this.history = [];
+	}
+
+	copy() {
+		let newGame = new Game(this_settings);
+
+		this.history.forEach(hItem => {
+			newGame.doMove(hItem[0]);
+		})
+		return newGame;
 	}
 
 	createGrid(cols, rows) {
