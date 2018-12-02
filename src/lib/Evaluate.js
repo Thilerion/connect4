@@ -31,6 +31,8 @@ const DRAW_SCORE = 0;
 const WEIGHT_3_ROW = 10;
 const WEIGHT_2_ROW = 3;
 
+const arrayAllCellsEqual = arr => arr.every(cell => cell === arr[0]);
+
 export default class Evaluate {
 	constructor(cols, rows) {
 		this.cols = cols;
@@ -73,115 +75,13 @@ export default class Evaluate {
 	checkWin() {
 		for (let i = 0; i < this.lines.length; i++) {
 			const line = this.lookupLine(this.lines[i]);
-			if (line.every((cell, _, l) => cell !== NO_PIECE && (cell === PLAYER_ONE || cell === PLAYER_TWO) && cell === l[0])) {
-				return line[0];
+			if (arrayAllCellsEqual(line)) {
+				// if all cells are NO_PIECE, don't evaluate line further
+				if (line[0] === NO_PIECE) continue;
+				// else all cells are from one player, so it's a win!
+				else return line[0];
 			}
 		}
 		return false;
-	}
-}
-
-let b = [
-	[0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 1, 0, 0],
-	[0, 0, 1, 0, 0, 0],
-	[1, 1, 0, 0, 0, 0],
-	[0, 1, 0, 0, 0, 1],
-	[0, 1, 1, 0, 0, 0],
-	[1, 0, 0, 1, 1, 1]
-]
-
-let e = new Evaluate(7, 6).setBoard(b).checkWin(); //?
-
-
-class EvaluateOLD {
-	findAllThreats() {
-		for (let x = 0; x < this.cols; x++) {
-			for (let y = 0; y < this.rows; y++) {
-				for (let i = 0; i < 4; i++) {
-					const evaluation = this.findEvaluateLine({ ...dirs[i], x, y });
-					if (!evaluation) continue;
-					if (evaluation.win) return evaluation;
-					if (evaluation.threat) {
-						threats[i].push(evaluation);
-					}
-				}
-			}
-		}
-
-		return { rowLines, colLines, dNELines, dSELines };
-	}
-
-	findEvaluateLine({ x, y, dx, dy }) {
-		const line = this.findLine({ x, y, dx, dy });
-		if (!line) return;
-
-		return { ...this.evaluateLine(line), x, y, dx, dy };
-	}
-
-	findLine({ x, y, dx, dy }) {
-		if (x + (3 * dx) > this.cols - 1) return;
-		if (y + (3 * dy) > this.rows - 1) return;
-		if (x + (3 * dx) < 0) return;
-		if (y + (3 * dy) < 0) return;
-
-		const line = [];
-		for (let i = 0; i < 4; i++) {
-			line.push(this.board[x + (i * dx)][y + (i * dy)]);
-		}
-		return line;
-	}
-
-	execute(board) {
-		this.board = board;
-		const options = this.findAllThreats();
-
-		if (options.win) return { win: options.win };
-
-		const rowWeight = 25;
-		const colWeight = 20;
-		const diagWeight = 30;
-		
-		let score = 0;
-		let scoreOne = 0;
-		let scoreTwo = 0;
-
-		options.rowLines.forEach(line => {
-			let lineScore = 0;
-			lineScore = (line.threat * rowWeight);
-
-			score += lineScore;
-			if (line.threat === PLAYER_ONE) scoreOne += lineScore;
-			if (line.threat === PLAYER_TWO) scoreTwo += lineScore;
-		})
-		options.colLines.forEach(line => {
-			let lineScore = 0;
-			lineScore = (line.threat * colWeight);
-
-			score += lineScore;
-			if (line.threat === PLAYER_ONE) scoreOne += lineScore;
-			if (line.threat === PLAYER_TWO) scoreTwo += lineScore;
-		})
-		options.dNELines.forEach(line => {
-			let lineScore = 0;
-			lineScore = (line.threat * diagWeight);
-
-			score += lineScore;
-			if (line.threat === PLAYER_ONE) scoreOne += lineScore;
-			if (line.threat === PLAYER_TWO) scoreTwo += lineScore;
-		})
-		options.dSELines.forEach(line => {
-			let lineScore = 0;		
-			lineScore = (line.threat * diagWeight);
-
-			score += lineScore;
-			if (line.threat === PLAYER_ONE) scoreOne += lineScore;
-			if (line.threat === PLAYER_TWO) scoreTwo += lineScore;
-		})
-
-		this.board = null;
-
-
-		return score;
 	}
 }
