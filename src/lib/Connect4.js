@@ -30,7 +30,7 @@ export default class Game {
 
 	availableMoves() {
 		return this.nextPieceAtHeight.reduce((avail, col, colIndex) => { 
-			if (col.length < this.rows) avail.push(colIndex);
+			if (col < this.rows) avail.push(colIndex);
 			return avail;
 		}, []);
 	}
