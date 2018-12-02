@@ -1,14 +1,19 @@
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from './Constants.js';
 
 export default class Game {
-	constructor(settings = SETTINGS) {
+	constructor(settings = SETTINGS, grid) {
 		this._settings = settings;
 
 		this.rows = settings.ROWS;
 		this.cols = settings.COLS;
 
 		this.nextPieceAtHeight = Array(this.cols).fill(0);
-		this.grid = this.createGrid(this.rows, this.cols);
+
+		if (grid == null) {
+			this.grid = this.createGrid(this.rows, this.cols);
+		} else {
+			this.grid = grid;
+		}
 
 		this.currentPlayer = PLAYER_ONE;
 
@@ -16,12 +21,18 @@ export default class Game {
 	}
 
 	copy() {
-		let newGame = new Game(this._settings);
+		const copy = new Game(this._settings, JSON.parse(JSON.stringify(this.grid)));
+		copy.nextPieceAtHeight = this.nextPieceAtHeight.slice();
+		copy.currentPlayer = this.currentPlayer;
+		copy.history = this.history.slice(); // TODO: maybe also JSON parse/stringify?
+		return copy;
+	}
 
-		this.history.forEach(hItem => {
-			newGame.doMove(hItem[0]);
-		})
-		return newGame;
+	availableMoves() {
+		return this.nextPieceAtHeight.reduce((avail, col, colIndex) => { 
+			if (col.length < this.rows) avail.push(colIndex);
+			return avail;
+		}, []);
 	}
 
 	createGrid(cols, rows) {

@@ -29,7 +29,7 @@ const Game = new Connect4Game();
 export default {
 	data() {
 		return {
-			board: Game.grid,
+			game: Game,
 			P1: PLAYER_ONE,
 			P2: PLAYER_TWO,
 			noPiece: NO_PIECE,
@@ -41,6 +41,9 @@ export default {
 		}
 	},
 	computed: {
+		board() {
+			return this.game.grid;
+		},
 		fullCols() {
 			return Game.nextPieceAtHeight.map(height => height >= this.rows);
 		},
