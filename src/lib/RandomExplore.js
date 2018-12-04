@@ -4,7 +4,7 @@ import { PLAYER_ONE, PLAYER_TWO } from './Constants.js';
 
 function calcUCT(wins, nodeSims, totalSims) {
 	const winRate = wins / nodeSims;
-	const expParam = 10;
+	const expParam = 4;
 
 	return winRate + (expParam * (Math.log(totalSims) / nodeSims));
 }
@@ -66,19 +66,20 @@ function findBestMove(game, timeLimit) {
 
 		const chosenMove = availableMoves[0];
 
-		game.doMove(chosenMove.col);
+		for (let i = 0; i < 10; i++) {
+			game.doMove(chosenMove.col);
 
-		let res = randomSimGame(game, evaluator);
-		
-		chosenMove.nodeSims++;
-		totalSims++;
-		if (res === player) {
-			chosenMove.wins++;
+			let res = randomSimGame(game, evaluator);
+			
+			chosenMove.nodeSims++;
+			totalSims++;
+			if (res === player) {
+				chosenMove.wins++;
+			}
+			game.undoMove();
 		}
 
 		chosenMove.UCT = calcUCT(chosenMove.wins, chosenMove.nodeSims, totalSims);
-
-		game.undoMove();
 	}
 
 	let sortedMoves = availableMoves.map(moveResult => {
