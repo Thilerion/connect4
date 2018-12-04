@@ -4,9 +4,11 @@
 		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)">
 			<div v-for="(cell, y) in col" :key="y" class="cell" :style="{'--col-height': `${(rows + 1 - y) * -100}%`, '--row': `${rows - y}`}">
 				<transition name="fall-piece">
-					<div class="piece" :class="{'player-one': cell === P1, 'player-two': cell === P2}" :key="`piece-${cell}`" v-show="cell === P1 || cell === P2"></div>
+					<div class="piece" :class="{'player-one': cell === P1, 'player-two': cell === P2}" :key="`piece-${cell}`" v-show="cell === P1 || cell === P2">
+						<div v-if="usePieceDepth" class="piece-inner"></div>
+					</div>
 				</transition>
-				<div class="cell-overlay-shadow"></div>
+				<div class="cell-overlay-shadow" v-if="useBoardInnerShadow"></div>
 				<div class="cell-overlay"></div>
 			</div>
 		</div>
@@ -34,7 +36,10 @@ export default {
 			rows: Game.rows,
 			cols: Game.cols,
 
-			score: 0
+			score: 0,
+
+			usePieceDepth: false,
+			useBoardInnerShadow: false
 		}
 	},
 	computed: {
@@ -136,11 +141,13 @@ export default {
 }
 
 .col:last-child .cell {
-	border-right-width: 0px;
+	border-right-width: 1px;
+	border-color: var(--col-bg-main);
 }
 
 .col:first-child .cell {
-	border-left-width: 0px;
+	border-left-width: 1px;
+	border-color: var(--col-bg-main);
 }
 
 .cell-overlay, .cell-overlay-shadow {
@@ -166,6 +173,15 @@ export default {
 	width: var(--piece-size);
 	height: var(--piece-size);
 	border-radius: 50%;
+	display: flex;
+}
+
+.piece-inner {
+	width: 75%;
+	height: 75%;
+	border-radius: 50%;
+	margin: auto;
+	box-shadow: inset -1px 0.75px 5px -1px rgba(0, 0, 0, 0.3), inset 1px -0.75px 5px -1px rgba(255, 255, 255, 0.2);
 }
 
 .piece.player-one {
