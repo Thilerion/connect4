@@ -96,10 +96,11 @@ export default {
 	flex-direction: column-reverse;
 	cursor: pointer;
 	background: transparent;
+	width: 100px;
 }
 
 .cell {
-	width: 100px;
+	width: 100%;
 	height: 90px;
 	position: relative;
 	display: flex;
@@ -119,13 +120,15 @@ export default {
 } */
 
 .cell-overlay {
-	width: 100px;
-	height: 90px;
-	background: radial-gradient(circle at center, transparent 30px, var(--color-board) 31px);
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(circle at center, transparent 30px, var(--color-board) 31px), radial-gradient(circle at 49% 51%, transparent 27px, black 50px);
 	position: absolute;
 }
 
 .piece {
+	transform: translateY(0);
+	will-change: transform;
 	width: 65px;
 	height: 65px;
 	border-radius: 50%;
