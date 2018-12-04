@@ -193,7 +193,7 @@ export default {
 }
 
 .fall-piece-enter-active {
-	transition: all calc(var(--row) * 0.2s) ease-in;
+	transition: all calc(var(--row) * 0.08s + 0.3s) ease-in;
 }
 
 .fall-piece-enter {
