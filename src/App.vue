@@ -29,7 +29,8 @@ html {
 	--color-bg: #2E2944;
 	--color-bg-shadow: hsl(251, 25%, 19%);
 	--color-board: hsl(251, 20%, 25%);
-	--color-board-highlight: hsl(251, 18%, 28%);
+	--color-board-no-highlight: hsl(251, 19%, 26%);
+	--color-board-highlight: hsl(251, 16%, 29%);
 	--color-board-border-main: #282437;
 	--color-board-border-secondary: hsla(253, 21%, 18%, 0.6);
 	--color-p1: #4AA475;

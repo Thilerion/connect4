@@ -1,7 +1,7 @@
 <template>
-<div>
+<div class="board-container">
 	<div class="board">
-		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)">
+		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)" :class="{'col-full': fullColumn[x]}">
 			<div v-for="(cell, y) in col" :key="y" class="cell" :style="{'--col-height': `${(rows + 1 - y) * -100}%`, '--row': `${rows - y}`}">
 				<transition name="fall-piece">
 					<div class="piece" :class="{'player-one': cell === P1, 'player-two': cell === P2}" :key="`piece-${cell}`" v-show="cell === P1 || cell === P2">
@@ -46,17 +46,18 @@ export default {
 		board() {
 			return this.game.grid;
 		},
-		fullCols() {
-			return Game.nextPieceAtHeight.map(height => height >= this.rows);
-		},
-		gameEnd() {
-			return Math.abs(this.score) > 1000;
+		fullColumn() {
+			return this.board.map(col => col[col.length - 1] !== NO_PIECE);
 		}
 	},
 	methods: {
 		makeMove(col) {
-			Game.doMove(col);
-			this.getScore();
+			if (!this.fullColumn[col]) {
+				Game.doMove(col);
+			} else {
+				console.warn("Can't place piece in full column!");
+			}
+			//this.getScore();
 		}
 	}
 }
@@ -87,8 +88,16 @@ export default {
 	--piece-gradient-size2: 36px;
 }
 
+.col.col-full {
+	cursor: default;
+}
+
 .col:hover {
 	--col-bg-main: var(--color-board-highlight);
+}
+
+.col.col-full:hover {
+	--col-bg-main: var(--color-board-no-highlight);
 }
 
 .col::before, .col::after {
