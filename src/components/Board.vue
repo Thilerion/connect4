@@ -15,7 +15,7 @@
 			<div v-for="(cell, y) in col" :key="y" class="cell">
 				<transition name="fall-piece">
 					<div class="piece player-one" key="piece-one" v-if="cell === P1"></div>
-					<div class="piece player-two" key="piece-two" v-if="cell === P2"></div>
+					<div class="piece player-two" key="piece-two" v-else-if="cell === P2"></div>
 				</transition>
 				<div class="cell-overlay-shadow"></div>
 				<div class="cell-overlay"></div>
@@ -91,7 +91,10 @@ export default {
 	position: relative;
 	display: inline-flex;
 	overflow: hidden;
-	border-radius: 0 0 9px 9px;
+	border-radius: 0 0 15px 15px;
+	border: 3px solid var(--color-board-border-main);
+	border-top-width: 0px;
+	margin-top: 2rem;
 }
 
 .col {
@@ -116,15 +119,22 @@ export default {
 	display: block;
 	content: '';
 	width: 100%;
-	height: 20px;
 	background: var(--col-bg-main);
 }
 
+.col::before {
+	height: 15px;
+}
+
+.col::after {
+	height: 25px;
+}
+
 .col:first-child {
-	border-left: 15px solid var(--color-board);
+	border-left: 7px solid var(--col-bg-main);
 }
 .col:last-child {
-	border-right: 15px solid var(--color-board);
+	border-right: 7px solid var(--col-bg-main);
 }
 
 .cell {
@@ -137,7 +147,7 @@ export default {
 	align-items: center;
 	border-width: 0 1px 0 1px;
 	border-style: solid;
-	border-color: rgba(0, 0, 0, 0.05);
+	border-color: var(--color-board-border-secondary);
 }
 
 .col:last-child .cell {
