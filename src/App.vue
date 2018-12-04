@@ -28,7 +28,8 @@ html {
 	box-sizing: border-box;
 	--color-bg: #2E2944;
 	--color-bg-shadow: hsl(251, 25%, 19%);
-	--color-board: hsl(251, 20%, 26%);
+	--color-board: hsl(251, 20%, 25%);
+	--color-board-highlight: hsl(251, 18%, 28%);
 	--color-p1: #4AA475;
 	--color-p2: #B94626;
 	--color-primary: #E2A02C;

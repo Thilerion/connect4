@@ -17,6 +17,7 @@
 					<div class="piece player-one" key="piece-one" v-if="cell === P1"></div>
 					<div class="piece player-two" key="piece-two" v-if="cell === P2"></div>
 				</transition>
+				<div class="cell-overlay-shadow"></div>
 				<div class="cell-overlay"></div>
 			</div>
 		</div>
@@ -87,8 +88,10 @@ export default {
 
 <style scoped>
 .board {
+	position: relative;
 	display: inline-flex;
 	overflow: hidden;
+	border-radius: 0 0 9px 9px;
 }
 
 .col {
@@ -97,6 +100,11 @@ export default {
 	cursor: pointer;
 	background: transparent;
 	width: 100px;
+	--col-bg-main: var(--color-board);
+}
+
+.col:hover {
+	--col-bg-main: var(--color-board-highlight);
 }
 
 .cell {
@@ -108,22 +116,21 @@ export default {
 	align-items: center;
 }
 
-.col:hover .cell-overlay {
-	filter: brightness(110%);
-}
-
-/* .cell-overlay {
-	left: 0; right: 0;
-	top: 0; bottom: 0;
-	background: radial-gradient(transparent 30px, var(--color-board) 31px);
-	position: absolute;
-} */
-
-.cell-overlay {
+.cell-overlay, .cell-overlay-shadow {
 	width: 100%;
 	height: 100%;
-	background: radial-gradient(circle at center, transparent 30px, var(--color-board) 31px), radial-gradient(circle at 49% 51%, transparent 27px, black 50px);
 	position: absolute;
+}
+
+.cell-overlay {
+	background: radial-gradient(circle at center, transparent 30px, var(--col-bg-main) 31px);
+}
+
+.cell-overlay-shadow {
+	width: 65px;
+	height: 65px;
+	border-radius: 50%;
+	box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2);
 }
 
 .piece {
@@ -135,11 +142,11 @@ export default {
 }
 
 .piece.player-one {
-	background: red;
+	background: var(--color-p1);
 }
 
 .piece.player-two {
-	background: green;
+	background: var(--color-p2);
 }
 
 .fall-piece-enter-active {
