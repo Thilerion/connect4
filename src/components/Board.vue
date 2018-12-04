@@ -1,30 +1,16 @@
 <template>
 <div>
-	<!-- <div class="board">
-		<div v-for="(col, x) in board" :key="x" class="col" :class="{full: fullCols[x]}" @click="makeMove(x)">
-			<div v-for="(cell, y) in col" :key="y" class="cell" :class="{'empty': cell === noPiece}">
-				<transition name="fall-piece">
-				<div class="piece player-one" key="piece-one" v-if="cell === P1"></div>
-				<div class="piece player-two" key="piece-two" v-if="cell === P2"></div>
-				</transition>
-			</div>
-		</div>
-	</div> -->
 	<div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)">
-			<div v-for="(cell, y) in col" :key="y" class="cell">
+			<div v-for="(cell, y) in col" :key="y" class="cell" :style="{'--col-height': `${(rows + 1 - y) * -100}%`, '--row': `${rows - y}`}">
 				<transition name="fall-piece">
-					<div class="piece" :class="{'player-one': cell === P1, 'player-two': cell === P2}" :style="pieceInitialPos" :key="`piece-${cell}`" v-show="cell === P1 || cell === P2"></div>
+					<div class="piece" :class="{'player-one': cell === P1, 'player-two': cell === P2}" :key="`piece-${cell}`" v-show="cell === P1 || cell === P2"></div>
 				</transition>
 				<div class="cell-overlay-shadow"></div>
 				<div class="cell-overlay"></div>
 			</div>
 		</div>
 	</div>
-	<!-- <button @click="getBest">Get best</button>
-	<p v-if="gameEnd">The {{winningPlayer.toLowerCase()}} player has won!</p>
-	<p v-else-if="score === 0">The score is even.</p>
-	<p v-else>The {{winningPlayer.toLowerCase()}} player is leading by {{Math.abs(score)}} points.</p> -->
 </div>
 </template>
 
@@ -63,9 +49,6 @@ export default {
 		},
 		winningPlayer() {
 			return this.score < 0 ? "Red" : "Green";
-		},
-		pieceInitialPos() {
-
 		}
 	},
 	methods: {
@@ -75,8 +58,7 @@ export default {
 			this.getScore();
 		},
 		getScore() {
-			//const E = new Evaluate(this.board, this.rows, this.cols);
-			//this.score = E.execute();
+		
 		},
 		getBest() {
 			let copy = Game.copy();
@@ -122,6 +104,7 @@ export default {
 	content: '';
 	width: 100%;
 	background: var(--col-bg-main);
+	z-index: 100;
 }
 
 .col::before {
@@ -194,11 +177,11 @@ export default {
 }
 
 .fall-piece-enter-active {
-	transition: all .6s;
+	transition: all calc(var(--row) * 0.2s) ease-in;
 }
 
 .fall-piece-enter {
-	transform: translateY(-600%);
+	transform: translateY(var(--col-height));
 }
 </style>
 
