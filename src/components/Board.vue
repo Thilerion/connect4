@@ -99,21 +99,53 @@ export default {
 	flex-direction: column-reverse;
 	cursor: pointer;
 	background: transparent;
-	width: 100px;
+	width: 110px;
+	box-sizing: content-box;
+
 	--col-bg-main: var(--color-board);
+	--piece-size: 75px;
+	--piece-gradient-size: 35px;
+	--piece-gradient-size2: 36px;
 }
 
 .col:hover {
 	--col-bg-main: var(--color-board-highlight);
 }
 
+.col::before, .col::after {
+	display: block;
+	content: '';
+	width: 100%;
+	height: 20px;
+	background: var(--col-bg-main);
+}
+
+.col:first-child {
+	border-left: 15px solid var(--color-board);
+}
+.col:last-child {
+	border-right: 15px solid var(--color-board);
+}
+
 .cell {
+	box-sizing: border-box;
 	width: 100%;
 	height: 90px;
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-width: 0 1px 0 1px;
+	border-style: solid;
+	border-color: rgba(0, 0, 0, 0.05);
+}
+
+.col:last-child .cell {
+	border-right-width: 0px;
+}
+
+.col:first-child .cell {
+	border-left-width: 0px;
 }
 
 .cell-overlay, .cell-overlay-shadow {
@@ -123,12 +155,12 @@ export default {
 }
 
 .cell-overlay {
-	background: radial-gradient(circle at center, transparent 30px, var(--col-bg-main) 31px);
+	background: radial-gradient(circle at center, transparent var(--piece-gradient-size), var(--col-bg-main) var(--piece-gradient-size2));
 }
 
 .cell-overlay-shadow {
-	width: 65px;
-	height: 65px;
+	width: var(--piece-size);
+	height: var(--piece-size);
 	border-radius: 50%;
 	box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2);
 }
@@ -136,8 +168,8 @@ export default {
 .piece {
 	transform: translateY(0);
 	will-change: transform;
-	width: 65px;
-	height: 65px;
+	width: var(--piece-size);
+	height: var(--piece-size);
 	border-radius: 50%;
 }
 
