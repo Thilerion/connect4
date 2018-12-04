@@ -14,8 +14,7 @@
 		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)">
 			<div v-for="(cell, y) in col" :key="y" class="cell">
 				<transition name="fall-piece">
-					<div class="piece player-one" key="piece-one" v-if="cell === P1"></div>
-					<div class="piece player-two" key="piece-two" v-else-if="cell === P2"></div>
+					<div class="piece" :class="{'player-one': cell === P1, 'player-two': cell === P2}" :style="pieceInitialPos" :key="`piece-${cell}`" v-show="cell === P1 || cell === P2"></div>
 				</transition>
 				<div class="cell-overlay-shadow"></div>
 				<div class="cell-overlay"></div>
@@ -64,6 +63,9 @@ export default {
 		},
 		winningPlayer() {
 			return this.score < 0 ? "Red" : "Green";
+		},
+		pieceInitialPos() {
+
 		}
 	},
 	methods: {
