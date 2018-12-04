@@ -17,6 +17,7 @@
 					<div class="piece player-one" key="piece-one" v-if="cell === P1"></div>
 					<div class="piece player-two" key="piece-two" v-if="cell === P2"></div>
 				</transition>
+				<div class="cell-overlay"></div>
 			</div>
 		</div>
 	</div>
@@ -87,6 +88,7 @@ export default {
 <style scoped>
 .board {
 	display: inline-flex;
+	overflow: hidden;
 }
 
 .col {
@@ -97,14 +99,36 @@ export default {
 }
 
 .cell {
-	width: 70px;
-	height: 70px;
-	border: 1px solid white;
+	width: 100px;
+	height: 90px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.col:hover .cell-overlay {
+	filter: brightness(110%);
+}
+
+/* .cell-overlay {
+	left: 0; right: 0;
+	top: 0; bottom: 0;
+	background: radial-gradient(transparent 30px, var(--color-board) 31px);
+	position: absolute;
+} */
+
+.cell-overlay {
+	width: 100px;
+	height: 90px;
+	background: radial-gradient(circle at center, transparent 30px, var(--color-board) 31px);
+	position: absolute;
 }
 
 .piece {
-	width: 70px;
-	height: 70px;
+	width: 65px;
+	height: 65px;
+	border-radius: 50%;
 }
 
 .piece.player-one {
@@ -113,6 +137,14 @@ export default {
 
 .piece.player-two {
 	background: green;
+}
+
+.fall-piece-enter-active {
+	transition: all .6s;
+}
+
+.fall-piece-enter {
+	transform: translateY(-600%);
 }
 </style>
 
