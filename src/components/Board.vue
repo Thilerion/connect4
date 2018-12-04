@@ -1,6 +1,6 @@
 <template>
 <div>
-	<div class="board">
+	<!-- <div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" :class="{full: fullCols[x]}" @click="makeMove(x)">
 			<div v-for="(cell, y) in col" :key="y" class="cell" :class="{'empty': cell === noPiece}">
 				<transition name="fall-piece">
@@ -9,11 +9,21 @@
 				</transition>
 			</div>
 		</div>
+	</div> -->
+	<div class="board">
+		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)">
+			<div v-for="(cell, y) in col" :key="y" class="cell">
+				<transition name="fall-piece">
+					<div class="piece player-one" key="piece-one" v-if="cell === P1"></div>
+					<div class="piece player-two" key="piece-two" v-if="cell === P2"></div>
+				</transition>
+			</div>
+		</div>
 	</div>
-	<button @click="getBest">Get best</button>
+	<!-- <button @click="getBest">Get best</button>
 	<p v-if="gameEnd">The {{winningPlayer.toLowerCase()}} player has won!</p>
 	<p v-else-if="score === 0">The score is even.</p>
-	<p v-else>The {{winningPlayer.toLowerCase()}} player is leading by {{Math.abs(score)}} points.</p>
+	<p v-else>The {{winningPlayer.toLowerCase()}} player is leading by {{Math.abs(score)}} points.</p> -->
 </div>
 </template>
 
@@ -56,6 +66,7 @@ export default {
 	},
 	methods: {
 		makeMove(col) {
+			console.log("Dropping piece on col ", col);
 			Game.doMove(col);
 			this.getScore();
 		},
@@ -76,6 +87,39 @@ export default {
 <style scoped>
 .board {
 	display: inline-flex;
+}
+
+.col {
+	display: flex;
+	flex-direction: column-reverse;
+	cursor: pointer;
+	background: transparent;
+}
+
+.cell {
+	width: 70px;
+	height: 70px;
+	border: 1px solid white;
+}
+
+.piece {
+	width: 70px;
+	height: 70px;
+}
+
+.piece.player-one {
+	background: red;
+}
+
+.piece.player-two {
+	background: green;
+}
+</style>
+
+
+<style scoped>
+/*.board {
+	display: inline-flex;
 	justify-content: center;
 	margin-top: 5rem;
 	border-bottom-right-radius: 15px;
@@ -86,7 +130,7 @@ export default {
 	background: rgba(var(--color-secondary), 0.025);
 }
 
-.col {
+/* .col {
 	padding-right: 6px;
 	padding-left: 6px;
 	border-right: 1px solid rgba(0, 0, 0, 0.15);
@@ -130,11 +174,22 @@ export default {
 	margin: 10px;
 	border-radius: 50%;
 	overflow: hidden;
+	position: relative;
 }
 
 .cell.empty {
-	background: var(--color-bg-shadow);
+	/* background: var(--color-bg-shadow);
+	/* background: transparent;
 	box-shadow: inset -4px 4px 20px 1px rgba(0, 0, 0, 0.1);
+}
+
+.cell-overlay {
+	box-sizing: content-box;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: 100px solid black;
 }
 
 .piece {
@@ -160,5 +215,5 @@ export default {
 
 .fall-piece-enter, .fall-piece-leave-to {
 	transform: translateY(-500%);
-}
+} */
 </style>
