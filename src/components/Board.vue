@@ -51,25 +51,12 @@ export default {
 		},
 		gameEnd() {
 			return Math.abs(this.score) > 1000;
-		},
-		winningPlayer() {
-			return this.score < 0 ? "Red" : "Green";
 		}
 	},
 	methods: {
 		makeMove(col) {
-			console.log("Dropping piece on col ", col);
 			Game.doMove(col);
 			this.getScore();
-		},
-		getScore() {
-		
-		},
-		getBest() {
-			let copy = Game.copy();
-			const bestMove = getBestMove(copy, 8);
-			console.log(bestMove);
-			this.makeMove(bestMove);
 		}
 	}
 }
@@ -199,106 +186,4 @@ export default {
 .fall-piece-enter {
 	transform: translateY(var(--col-height));
 }
-</style>
-
-
-<style scoped>
-/*.board {
-	display: inline-flex;
-	justify-content: center;
-	margin-top: 5rem;
-	border-bottom-right-radius: 15px;
-	border-bottom-left-radius: 15px;
-	border-color: rgba(0, 0, 0, 0.2);
-	border-style: solid;
-	border-width: 0 3px 3px 3px;
-	background: rgba(var(--color-secondary), 0.025);
-}
-
-/* .col {
-	padding-right: 6px;
-	padding-left: 6px;
-	border-right: 1px solid rgba(0, 0, 0, 0.15);
-	border-left: 1px solid rgba(0, 0, 0, 0.15);
-	display: flex;
-	flex-direction: column-reverse;
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-	transition: background .4s ease-out;
-	cursor: pointer;
-}
-
-.col:hover {
-	background: rgba(255, 255, 255, 0.1);
-	transition: background .1s ease;
-}
-
-.col.full {
-	cursor: default;
-}
-
-.col.full:hover {
-	background: rgba(255, 255, 255, 0.02);
-}
-
-.col:last-of-type {
-	padding-right: 1rem;
-	border: none;
-	border-bottom-right-radius: 15px;
-}
-
-.col:first-of-type {
-	padding-left: 0;
-	border-bottom-left-radius: 15px;
-	padding-left: 1rem;
-}
-
-.cell {
-	width: 70px;
-	height: 70px;	
-	margin: 10px;
-	border-radius: 50%;
-	overflow: hidden;
-	position: relative;
-}
-
-.cell.empty {
-	/* background: var(--color-bg-shadow);
-	/* background: transparent;
-	box-shadow: inset -4px 4px 20px 1px rgba(0, 0, 0, 0.1);
-}
-
-.cell-overlay {
-	box-sizing: content-box;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
-	border: 100px solid black;
-}
-
-.piece {
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
-	box-shadow: inset -2px 2px 15px 1px rgba(0, 0, 0, 0.5);
-}
-
-.piece.player-one {
-	background: var(--color-p1);
-}
-
-.piece.player-two {
-	background: var(--color-p2);
-}
-
-.fall-piece-enter-active {
-	transition: all 0s ease;
-	position: relative;
-	z-index: 500;
-}
-
-.fall-piece-enter, .fall-piece-leave-to {
-	transform: translateY(-500%);
-} */
 </style>
