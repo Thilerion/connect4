@@ -13,13 +13,15 @@
 			</div>
 		</div>
 	</div>
+	<div class="ai-controls">
+		<button @click="makeMonteCarloBestMove">Monte Carlo Best Move</button>
+	</div>
 </div>
 </template>
 
 <script>
 import Connect4Game from '../lib/Connect4.js';
-import Evaluate from '../lib/Evaluate.js';
-import getBestMove from '../lib/Minimax.js';
+import { monteCarloBestMove } from '../lib/Random.js';
 
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from '../lib/Constants.js';
 
@@ -57,7 +59,10 @@ export default {
 			} else {
 				console.warn("Can't place piece in full column!");
 			}
-			//this.getScore();
+		},
+		makeMonteCarloBestMove() {
+			const results = monteCarloBestMove(this.game.clone(), 200);
+			this.makeMove(results[0].move);
 		}
 	}
 }

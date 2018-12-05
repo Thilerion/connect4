@@ -1,4 +1,4 @@
-import Evaluate from './Evaluate.js';
+import Evaluate from './FindLines.js';
 import Game from './Connect4.js';
 import { PLAYER_ONE, PLAYER_TWO } from './Constants.js';
 

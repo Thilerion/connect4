@@ -1,63 +1,52 @@
-import Evaluate from './Evaluate.js';
+import { TIE } from './Constants.js';
 import Game from './Connect4.js';
-import { PLAYER_ONE, PLAYER_TWO } from './Constants.js';
 
-function randomSimGame(game, evaluator) {
-	let copy = game.copy();
+const rnd = (maxExcl, min = 0) => Math.floor(Math.random() * (maxExcl - min)) + min;
 
-	while (!evaluator.setBoard(copy.grid).checkWin()) {
-		const moves = copy.availableMoves();
+function randomSimGame(game) {
+	let clone = game.clone();
 
-		if (moves.length <= 0) {
-			// if tie game
-			return { result: 0 };
-		}
+	while (!clone.gameEnd) {
+		const moves = clone.availableMoves();
+		const randomMove = rnd(moves.length);
 
-		copy.doMove(moves[Math.floor(Math.random() * moves.length)]);
+		clone.doMove(moves[randomMove]);
 	}
-	return evaluator.checkWin();
+
+	return clone.winner;
 }
 
-function findBestMove(game, timeLimit) {
-	//let copy = game.copy();
+function monteCarloBestMove(game, timeLimit = 400) {
 	const player = game.currentPlayer;
-	const evaluator = new Evaluate(game.cols, game.rows);
-
-	const availableMovesBase = game.availableMoves();
-	let availableMoves = availableMovesBase.map(availMove => {
-		return { col: availMove, wins: 0, ties: 0, losses: 0, sims: 0 };
+	const availMoves = game.availableMoves();
+	let availMovesStats = availMoves.map(move => {
+		return { move, wins: 0, ties: 0, losses: 0 };
 	});
 
-
-	let t1 = performance.now();
+	const t1 = performance.now();
 
 	while (performance.now() - t1 < timeLimit) {
+		for (let i = 0; i < availMoves.length; i++) {
+			game.doMove(availMoves[i]);
 
-		availableMoves.forEach(availMove => {
-			game.doMove(availMove.col);
+			let rndResult = randomSimGame(game);
 
-			let gameResult = randomSimGame(game, evaluator);
-
-			availMove.sims++;
-
-			if (gameResult === player) {
-				availMove.wins++;
-			} else if (gameResult === 0) {
-				availMove.ties++;
-			} else {
-				availMove.losses++;
-			}
+			if (rndResult === player) availMovesStats[i].wins++;
+			else if (rndResult === TIE) availMovesStats[i].ties++;
+			else availMovesStats[i].losses++;
 
 			game.undoMove();
-		})
+		}
 	}
 
-	return availableMoves.map(moveResult => {
-		const winRate = Math.round((moveResult.wins / moveResult.sims) * 1000) / 1000;
-		return { col: moveResult.col, sims: moveResult.sims, winRate };
-	}).sort((a, b) => a.winRate < b.winRate);
+	const sorted = availMovesStats.map(m => {
+		return { ...m, winRate: m.wins / (m.wins + m.ties + m.losses) };
+	}).sort((a, b) => b.winRate - a.winRate);
+	return sorted;
 }
 
-let g = new Game().doMove(4).doMove(0);
+export { monteCarloBestMove };
 
-findBestMove(g, 1500); //?
+// let g = new Game();
+
+// monteCarloBestMove(g, 100); //?

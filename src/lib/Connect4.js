@@ -80,7 +80,7 @@ export default class Game {
 
 		const winner = this.checkWin(col, row);
 		if (winner) {
-			console.warn(`Player ${winner} has won!`);
+			// console.warn(`Player ${winner} has won!`);
 			this.gameEnd = true;
 			this.winner = winner;
 		} else if (this.availableMoves().length < 1) {
