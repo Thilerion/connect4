@@ -4,9 +4,11 @@
 		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)" :class="{'col-full': fullColumn[x]}">
 			<div v-for="(cell, y) in col" :key="y" class="cell" :style="{'--col-height': `${(rows + 1 - y) * -100}%`, '--row': `${rows - y}`}">
 				<transition name="fall-piece">
-					<div class="piece" :class="{'player-one': cell === P1, 'player-two': cell === P2}" :key="`piece-${cell}`" v-show="cell === P1 || cell === P2">
-						<div v-if="usePieceDepth" class="piece-inner"></div>
-					</div>
+					<Piece
+						:useDepth="usePieceDepth"
+						:player="piecePlayer(cell)"
+						v-if="cell !== noPiece"
+						/>
 				</transition>
 				<div class="cell-overlay-shadow" v-if="useBoardInnerShadow"></div>
 				<div class="cell-overlay"></div>
@@ -23,9 +25,11 @@
 import Connect4Game from '../lib/Connect4.js';
 import { monteCarloBestMove } from '../lib/Random.js';
 
-import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from '../lib/Constants.js';
+import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from '../lib/Constants.js';
 
 const Game = new Connect4Game();
+
+import Piece from './Piece.vue';
 
 export default {
 	data() {
@@ -40,9 +44,15 @@ export default {
 
 			score: 0,
 
-			usePieceDepth: false,
-			useBoardInnerShadow: false
+			usePieceDepth: true,
+			useBoardInnerShadow: false,
+
+			P1type: HUMAN,
+			P2type: AI
 		}
+	},
+	components: {
+		Piece
 	},
 	computed: {
 		board() {
@@ -50,6 +60,13 @@ export default {
 		},
 		fullColumn() {
 			return this.board.map(col => col[col.length - 1] !== NO_PIECE);
+		},
+		currentPlayer() {
+			return this.game.currentPlayer;
+		},
+		currentPlayerType() {
+			if (this.currentPlayer === this.P1) return this.P1type;
+			else if (this.currentPlayer === this.P2) return this.P2type;
 		}
 	},
 	methods: {
@@ -63,6 +80,10 @@ export default {
 		makeMonteCarloBestMove() {
 			const results = monteCarloBestMove(this.game.clone(), 200);
 			this.makeMove(results[0].move);
+		},
+		piecePlayer(cell) {
+			if (cell === this.P1) return 'player-one';
+			else if (cell === this.P2) return 'player-two';
 		}
 	}
 }
@@ -168,7 +189,7 @@ export default {
 	box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2);
 }
 
-.piece {
+/* .piece {
 	transform: translateY(0);
 	will-change: transform;
 	width: var(--piece-size);
@@ -191,7 +212,7 @@ export default {
 
 .piece.player-two {
 	background: var(--color-p2);
-}
+} */
 
 .fall-piece-enter-active {
 	transition: all calc(var(--row) * 0.08s + 0.3s) ease-in;
