@@ -1,41 +1,6 @@
 import { TIE } from './Constants.js';
-import Game from './Connect4.js';
-import 'setimmediate';
 
-const rnd = (maxExcl, min = 0) => Math.floor(Math.random() * (maxExcl - min)) + min;
-
-function randomSimGame(game) {
-	let clone = game.clone();
-
-	while (!clone.gameEnd) {
-		const moves = clone.availableMoves();
-		const randomMove = rnd(moves.length);
-
-		clone.doMove(moves[randomMove]);
-	}
-
-	return clone.winner;
-}
-
-function sleep() {
-	return new Promise(resolve => {
-		// const t1 = performance.now();
-		// setTimeout(() => {
-		// 	console.log(`Slept for ${performance.now() - t1}`);
-		// 	resolve();
-		// }, 0);
-		// requestAnimationFrame(() => {
-		// 	console.log(`Slept for ${performance.now() - t1}`);
-		// 	resolve();
-		// })
-
-		// SetImmediate polyfill from MDN
-		setImmediate(() => {
-			// console.log(`Slept for ${performance.now() - t1}`);
-			resolve();
-		})
-	})
-}
+import {randomSimGame, sleep} from './utils.js'
 
 async function monteCarloBestMove(game, timeLimit = 400) {
 	const player = game.currentPlayer;

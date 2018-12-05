@@ -45,7 +45,7 @@
 
 <script>
 import Connect4Game from '../lib/Connect4.js';
-import { monteCarloBestMove } from '../lib/Random.js';
+import { monteCarloBestMove } from '../lib/MonteCarlo.js';
 
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from '../lib/Constants.js';
 
