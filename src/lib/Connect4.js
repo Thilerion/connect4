@@ -1,4 +1,4 @@
-import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE } from './Constants.js';
+import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, TIE } from './Constants.js';
 
 export default class Game {
 	constructor(settings = SETTINGS, grid) {
@@ -16,6 +16,8 @@ export default class Game {
 		}
 
 		this.currentPlayer = PLAYER_ONE;
+		this.gameEnd = false;
+		this.winner = null;
 
 		this.history = [];
 	}
@@ -63,6 +65,11 @@ export default class Game {
 	}
 
 	doMove(col) {
+		if (this.gameEnd) {
+			console.warn("Can't make a move when the game is over.");
+			return;
+		}
+
 		const row = this.nextPieceAtHeight[col];
 
 		if (row >= this.rows) {
@@ -76,8 +83,11 @@ export default class Game {
 		const winner = this.checkWin(col, row);
 		if (winner) {
 			console.warn(`Player ${winner} has won!`);
+			this.gameEnd = true;
+			this.winner = winner;
 		} else if (this.availableMoves().length < 1) {
-			console.warn("Game is tied!");
+			this.gameEnd = true;
+			this.winner = TIE;
 		}
 
 		return this.nextPlayer();
@@ -91,6 +101,11 @@ export default class Game {
 		
 		const [col, row] = this.history.pop();
 		this.removePiece(col, row);
+
+		if (this.gameEnd) {
+			this.gameEnd = false;
+			this.winner = null;
+		}
 
 		return this.nextPlayer();
 	}
