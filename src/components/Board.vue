@@ -4,23 +4,16 @@
 		<div class="player-score p1" :class="{active: currentPlayer === P1, win: winner === P1, lose: winner === P2}">
 			<span class="player-name" v-if="winner === P1">{{playerOneString}} WINS!</span>
 			<span class="player-name" v-else>{{playerOneString}}</span>
-			<!-- <Piece
-				:useDepth="usePieceDepth"
-				:player="P1"
-				:size="playerPieceSize"
-				class="player-piece-color"
-			/> -->
+			<span class="score">{{P1wins}}</span>
 		</div>
 		<div class="player-score p2" :class="{active: currentPlayer === P2, win: winner === P2, lose: winner === P1}">
 			<span class="player-name" v-if="winner === P2">{{playerTwoString}} WINS!</span>
 			<span class="player-name" v-else>{{playerTwoString}}</span>
-			<!-- <Piece
-				:useDepth="usePieceDepth"
-				:player="P2"
-				:size="playerPieceSize"
-				class="player-piece-color"
-			/> -->
+			<span class="score">{{P2wins}}</span>
 		</div>
+	</div>
+	<div class="controls">
+		
 	</div>
 	<div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)" :class="{'col-full': fullColumn[x]}">
@@ -73,7 +66,8 @@ export default {
 			P1type: HUMAN,
 			P2type: AI,
 
-			playerPieceSize: 25
+			P1wins: 0,
+			P2wins: 0
 		}
 	},
 	components: {
@@ -126,11 +120,24 @@ export default {
 			const results = monteCarloBestMove(this.game.clone(), 200);
 			this.makeMove(results[0].move);
 		}
+	},
+	watch: {
+		winner(newVal, oldVal) {
+			if (newVal === PLAYER_ONE) {
+				this.P1wins++;
+			} else if (newVal === PLAYER_TWO) {
+				this.P2wins++;
+			}
+		}
 	}
 }
 </script>
 
 <style scoped>
+.board-container {
+	display: inline-block;
+}
+
 .scoreboard {
 	display: flex;
 	justify-content: center;
@@ -147,12 +154,32 @@ export default {
 	letter-spacing: 0.5px;
 	transition: all .2s ease-in;
 	cursor: default;
+	display: flex;
+	justify-content: space-between;
+	white-space: nowrap;
 }
 
 .player-score.p1 {
 	margin-right: 1rem;
+	flex-direction: row;
 	border-color: var(--color-p1);
 	color: var(--color-p1);
+}
+
+.player-score.p1 .score {
+	margin-left: 0.5rem;
+}
+
+.player-score.p2 .score {
+	margin-right: 0.5rem;
+}
+
+.player-score .score {
+	flex: 0 0 2rem;
+}
+
+.player-score .player-name {
+	flex: 4 1 auto;
 }
 
 .player-score.p1.active:not(.lose), .player-score.p1.win {
@@ -162,6 +189,7 @@ export default {
 
 .player-score.p2 {
 	margin-left: 1rem;
+	flex-direction: row-reverse;
 	border-color: var(--color-p2);
 	color: var(--color-p2);
 }
