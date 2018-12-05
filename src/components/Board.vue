@@ -49,8 +49,6 @@ import { monteCarloBestMove } from '../lib/Random.js';
 
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from '../lib/Constants.js';
 
-// let Game = new Connect4Game();
-
 import Piece from './Piece.vue';
 
 export default {
@@ -66,7 +64,7 @@ export default {
 			usePieceDepth: true,
 			useBoardInnerShadow: false,
 
-			P1type: HUMAN,
+			P1type: AI,
 			P2type: AI,
 
 			P1wins: 0,
@@ -152,6 +150,16 @@ export default {
 			} else if (newVal === PLAYER_TWO) {
 				this.P2wins++;
 			}
+		},
+		currentPlayer: {
+			handler(newVal, oldVal) {
+				if (this.currentPlayerType === AI) {
+					setTimeout(() => {
+						this.makeMonteCarloBestMove();
+					}, 0);
+				}
+			},
+			immediate: true
 		}
 	}
 }
