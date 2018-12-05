@@ -2,6 +2,7 @@
 	<div
 		class="piece"
 		:class="playerClass"
+		:style="pieceSize"
 	>
 		<div v-if="useDepth" class="piece-inner"></div>
 	</div>
@@ -11,11 +12,22 @@
 import { PLAYER_ONE, PLAYER_TWO } from '../lib/Constants.js';
 
 export default {
-	props: ['player', 'useDepth'],
+	props: {
+		player: null,
+		useDepth: Boolean,
+		size: null
+	},
 	computed: {
 		playerClass() {
 			if (this.player === PLAYER_ONE) return 'piece-one';
 			else if (this.player === PLAYER_TWO) return 'piece-two';
+		},
+		pieceSize() {
+			if (!this.size) {
+				return {width: 'var(--piece-size)', height: 'var(--piece-size)'};
+			} else {
+				return {width: `${this.size}px`, height: `${this.size}px`};
+			}
 		}
 	}
 }
@@ -25,8 +37,8 @@ export default {
 .piece {
 	transform: translateY(0);
 	will-change: transform;
-	width: var(--piece-size);
-	height: var(--piece-size);
+	/* width: var(--piece-size);
+	height: var(--piece-size); */
 	border-radius: 50%;
 	display: flex;
 }

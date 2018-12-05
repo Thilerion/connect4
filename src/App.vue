@@ -33,7 +33,7 @@ html {
 	--color-board-highlight: hsl(251, 16%, 29%);
 	--color-board-border-main: #282437;
 	--color-board-border-secondary: hsla(253, 21%, 18%, 0.6);
-	--color-p1: #4AA475;
+	--color-p1: #4aa475;
 	--color-p2: #B94626;
 	--color-primary: #E2A02C;
 	--color-secondary: 229, 210, 143;

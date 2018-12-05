@@ -1,7 +1,26 @@
 <template>
 <div class="board-container">
-	<div class="players">
-		div.
+	<div class="scoreboard">
+		<div class="player-score p1" :class="{active: currentPlayer === P1, win: winner === P1, lose: winner === P2}">
+			<span class="player-name" v-if="winner === P1">{{playerOneString}} WINS!</span>
+			<span class="player-name" v-else>{{playerOneString}}</span>
+			<!-- <Piece
+				:useDepth="usePieceDepth"
+				:player="P1"
+				:size="playerPieceSize"
+				class="player-piece-color"
+			/> -->
+		</div>
+		<div class="player-score p2" :class="{active: currentPlayer === P2, win: winner === P2, lose: winner === P1}">
+			<span class="player-name" v-if="winner === P2">{{playerTwoString}} WINS!</span>
+			<span class="player-name" v-else>{{playerTwoString}}</span>
+			<!-- <Piece
+				:useDepth="usePieceDepth"
+				:player="P2"
+				:size="playerPieceSize"
+				class="player-piece-color"
+			/> -->
+		</div>
 	</div>
 	<div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)" :class="{'col-full': fullColumn[x]}">
@@ -11,7 +30,7 @@
 						:useDepth="usePieceDepth"
 						:player="cell"
 						v-if="cell !== noPiece"
-						/>
+					/>
 				</transition>
 				<div class="cell-overlay-shadow" v-if="useBoardInnerShadow"></div>
 				<div class="cell-overlay"></div>
@@ -20,6 +39,7 @@
 	</div>
 	<div class="ai-controls">
 		<button @click="makeMonteCarloBestMove">Monte Carlo Best Move</button>
+		<button @click="unmakeMove">Undo Move</button>
 	</div>
 </div>
 </template>
@@ -51,7 +71,9 @@ export default {
 			useBoardInnerShadow: false,
 
 			P1type: HUMAN,
-			P2type: AI
+			P2type: AI,
+
+			playerPieceSize: 25
 		}
 	},
 	components: {
@@ -70,6 +92,23 @@ export default {
 		currentPlayerType() {
 			if (this.currentPlayer === this.P1) return this.P1type;
 			else if (this.currentPlayer === this.P2) return this.P2type;
+		},
+		playerOneString() {
+			if (this.P1type === HUMAN) {
+				return "player"
+			} else return "ai";
+		},
+		playerTwoString() {
+			if (this.P2type === HUMAN) {
+				return "player"
+			} else return "ai";
+		},
+		gameEnd() {
+			return this.game.gameEnd;
+		},
+		winner() {
+			if (!this.gameEnd) return;
+			return this.game.winner;
 		}
 	},
 	methods: {
@@ -80,6 +119,9 @@ export default {
 				console.warn("Can't place piece in full column!");
 			}
 		},
+		unmakeMove() {
+			Game.undoMove();
+		},
 		makeMonteCarloBestMove() {
 			const results = monteCarloBestMove(this.game.clone(), 200);
 			this.makeMove(results[0].move);
@@ -89,6 +131,50 @@ export default {
 </script>
 
 <style scoped>
+.scoreboard {
+	display: flex;
+	justify-content: center;
+	margin-top: 2rem;
+}
+
+.player-score {
+	width: 16rem;
+	border: 3px solid;
+	border-radius: 1.25rem;
+	padding: 1rem;
+	font-weight: 600;
+	font-size: 1.5rem;
+	letter-spacing: 0.5px;
+	transition: all .2s ease-in;
+	cursor: default;
+}
+
+.player-score.p1 {
+	margin-right: 1rem;
+	border-color: var(--color-p1);
+	color: var(--color-p1);
+}
+
+.player-score.p1.active:not(.lose), .player-score.p1.win {
+	color: var(--color-bg);
+	background-color: var(--color-p1);
+}
+
+.player-score.p2 {
+	margin-left: 1rem;
+	border-color: var(--color-p2);
+	color: var(--color-p2);
+}
+
+.player-score.p2.active:not(.lose), .player-score.p2.win {
+	color: var(--color-bg);
+	background-color: var(--color-p2);
+}
+
+.player-name {
+	text-transform: uppercase;
+}
+
 .board {
 	position: relative;
 	display: inline-flex;
@@ -187,31 +273,6 @@ export default {
 	border-radius: 50%;
 	box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2);
 }
-
-/* .piece {
-	transform: translateY(0);
-	will-change: transform;
-	width: var(--piece-size);
-	height: var(--piece-size);
-	border-radius: 50%;
-	display: flex;
-}
-
-.piece-inner {
-	width: 75%;
-	height: 75%;
-	border-radius: 50%;
-	margin: auto;
-	box-shadow: inset -1px 0.75px 5px -1px rgba(0, 0, 0, 0.3), inset 1px -0.75px 5px -1px rgba(255, 255, 255, 0.2);
-}
-
-.piece.player-one {
-	background: var(--color-p1);
-}
-
-.piece.player-two {
-	background: var(--color-p2);
-} */
 
 .fall-piece-enter-active {
 	transition: all calc(var(--row) * 0.08s + 0.3s) ease-in;
