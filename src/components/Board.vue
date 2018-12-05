@@ -8,8 +8,8 @@
 		</div>
 
 		<div class="controls">
-			<button class="control-btn" @click="newGame" v-if="gameEnd">New Game</button>
-			<button class="control-btn" @click="newGame" v-else>Restart</button>
+			<button class="control-btn" @click="newGame" v-if="gameEnd">Play again!</button>
+			<button class="control-btn" @click="newGame" v-else>New game</button>
 
 			<button class="control-btn" @click="unmakeMove">Undo</button>
 			<button class="control-btn" @click="makeMonteCarloBestMove">MC Move</button>
@@ -35,10 +35,6 @@
 				<div class="cell-overlay"></div>
 			</div>
 		</div>
-	</div>
-	<div class="ai-controls">
-		<button @click="makeMonteCarloBestMove">Monte Carlo Best Move</button>
-		<button @click="unmakeMove">Undo Move</button>
 	</div>
 </div>
 </template>
