@@ -36,7 +36,7 @@ html {
 	--color-p1: #4aa475;
 	--color-p2: #B94626;
 	--color-primary: #E2A02C;
-	--color-secondary: 229, 210, 143;
+	--color-secondary: rgb(229, 210, 143);
 	font-size: 62.5%;
 }
 
@@ -44,7 +44,7 @@ body {
 	min-height: 100vh;
 	margin: 0;
 	background-color: var(--color-bg);
-	color: rgb(var(--color-secondary));
+	color: var(--color-secondary);
 	font-family: Ubuntu, sans-serif;
 	font-size: 1.77rem;
 }

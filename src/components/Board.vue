@@ -1,11 +1,20 @@
 <template>
 <div class="board-container">
-	<div class="scoreboard">
+	<div class="top-container">
 		<div class="player-score p1" :class="{active: currentPlayer === P1, win: winner === P1, lose: winner === P2}">
 			<span class="player-name" v-if="winner === P1">{{playerOneString}} WINS!</span>
 			<span class="player-name" v-else>{{playerOneString}}</span>
 			<span class="score">{{P1wins}}</span>
 		</div>
+
+		<div class="controls">
+			<button class="control-btn" @click="newGame" v-if="gameEnd">New Game</button>
+			<button class="control-btn" @click="newGame" v-else>Restart</button>
+
+			<button class="control-btn" @click="unmakeMove">Undo</button>
+			<button class="control-btn" @click="makeMonteCarloBestMove">MC Move</button>
+		</div>
+
 		<div class="player-score p2" :class="{active: currentPlayer === P2, win: winner === P2, lose: winner === P1}">
 			<span class="player-name" v-if="winner === P2">{{playerTwoString}} WINS!</span>
 			<span class="player-name" v-else>{{playerTwoString}}</span>
@@ -40,20 +49,17 @@ import { monteCarloBestMove } from '../lib/Random.js';
 
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from '../lib/Constants.js';
 
-const Game = new Connect4Game();
+// let Game = new Connect4Game();
 
 import Piece from './Piece.vue';
 
 export default {
 	data() {
 		return {
-			game: Game,
+			game: new Connect4Game(),
 			P1: PLAYER_ONE,
 			P2: PLAYER_TWO,
 			noPiece: NO_PIECE,
-
-			rows: Game.rows,
-			cols: Game.cols,
 
 			score: 0,
 
@@ -71,6 +77,12 @@ export default {
 		Piece
 	},
 	computed: {
+		rows() {
+			return this.game.rows;
+		},
+		cols() {
+			return this.game.cols;
+		},
 		board() {
 			return this.game.grid;
 		},
@@ -105,17 +117,20 @@ export default {
 	methods: {
 		makeMove(col) {
 			if (!this.fullColumn[col]) {
-				Game.doMove(col);
+				this.game.doMove(col);
 			} else {
 				console.warn("Can't place piece in full column!");
 			}
 		},
 		unmakeMove() {
-			Game.undoMove();
+			this.game.undoMove();
 		},
 		makeMonteCarloBestMove() {
 			const results = monteCarloBestMove(this.game.clone(), 200);
 			this.makeMove(results[0].move);
+		},
+		newGame() {
+			this.game = new Connect4Game();
 		}
 	},
 	watch: {
@@ -135,10 +150,34 @@ export default {
 	display: inline-block;
 }
 
-.scoreboard {
+.top-container {
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 3px;
 	margin-top: 2rem;
+}
+
+.controls {
+	flex: 1 1 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.control-btn {
+	text-transform: uppercase;
+	background: none;
+	border: 2px solid var(--color-secondary);
+	color: var(--color-secondary);
+	border-radius: 3px;
+	font-size: 1.2rem;
+	cursor: pointer;
+}
+
+.controls > button {
+	width: 10rem;
+	height: 4rem;
 }
 
 .player-score {
