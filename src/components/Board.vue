@@ -1,12 +1,15 @@
 <template>
 <div class="board-container">
+	<div class="players">
+		div.
+	</div>
 	<div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)" :class="{'col-full': fullColumn[x]}">
 			<div v-for="(cell, y) in col" :key="y" class="cell" :style="{'--col-height': `${(rows + 1 - y) * -100}%`, '--row': `${rows - y}`}">
 				<transition name="fall-piece">
 					<Piece
 						:useDepth="usePieceDepth"
-						:player="piecePlayer(cell)"
+						:player="cell"
 						v-if="cell !== noPiece"
 						/>
 				</transition>
@@ -80,10 +83,6 @@ export default {
 		makeMonteCarloBestMove() {
 			const results = monteCarloBestMove(this.game.clone(), 200);
 			this.makeMove(results[0].move);
-		},
-		piecePlayer(cell) {
-			if (cell === this.P1) return 'player-one';
-			else if (cell === this.P2) return 'player-two';
 		}
 	}
 }

@@ -1,15 +1,23 @@
 <template>
 	<div
 		class="piece"
-		:class="player"
+		:class="playerClass"
 	>
 		<div v-if="useDepth" class="piece-inner"></div>
 	</div>
 </template>
 
 <script>
+import { PLAYER_ONE, PLAYER_TWO } from '../lib/Constants.js';
+
 export default {
-	props: ['player', 'useDepth']
+	props: ['player', 'useDepth'],
+	computed: {
+		playerClass() {
+			if (this.player === PLAYER_ONE) return 'piece-one';
+			else if (this.player === PLAYER_TWO) return 'piece-two';
+		}
+	}
 }
 </script>
 
@@ -31,11 +39,11 @@ export default {
 	box-shadow: inset -1px 0.75px 5px -1px rgba(0, 0, 0, 0.3), inset 1px -0.75px 5px -1px rgba(255, 255, 255, 0.2);
 }
 
-.piece.player-one {
+.piece.piece-one {
 	background: var(--color-p1);
 }
 
-.piece.player-two {
+.piece.piece-two {
 	background: var(--color-p2);
 }
 </style>
