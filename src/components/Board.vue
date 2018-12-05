@@ -64,14 +64,14 @@ export default {
 			usePieceDepth: true,
 			useBoardInnerShadow: false,
 
-			P1type: AI,
+			P1type: HUMAN,
 			P2type: AI,
 
 			P1wins: 0,
 			P2wins: 0,
 
-			usePieceDepth: false,
-			useBoardInnerShadow: false,
+			usePieceDepth: true,
+			useBoardInnerShadow: true,
 
 			processing: false
 		}
@@ -368,8 +368,6 @@ export default {
 .cell-overlay, .cell-overlay-shadow {
 	width: 100%;
 	height: 100%;
-	align-self: stretch;
-	justify-self: stretch;
 	position: absolute;
 }
 
