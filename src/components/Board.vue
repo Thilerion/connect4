@@ -12,9 +12,6 @@
 			<span class="score">{{P2wins}}</span>
 		</div>
 	</div>
-	<div class="controls">
-		
-	</div>
 	<div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)" :class="{'col-full': fullColumn[x]}">
 			<div v-for="(cell, y) in col" :key="y" class="cell" :style="{'--col-height': `${(rows + 1 - y) * -100}%`, '--row': `${rows - y}`}">
@@ -148,15 +145,17 @@ export default {
 	width: 16rem;
 	border: 3px solid;
 	border-radius: 1.25rem;
-	padding: 1rem;
+	padding: 0 1rem;
 	font-weight: 600;
 	font-size: 1.5rem;
 	letter-spacing: 0.5px;
 	transition: all .2s ease-in;
 	cursor: default;
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	white-space: nowrap;
+	height: 4rem;
 }
 
 .player-score.p1 {
