@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<div class="ai-controls">
-		<button @click="makeMonteCarloBestMove">Monte Carlo Best Move</button>
+		<button :disabled="processing" @click="makeMonteCarloBestMove">Monte Carlo Best Move</button>
 	</div>
 </div>
 </template>
@@ -38,10 +38,10 @@ export default {
 			rows: Game.rows,
 			cols: Game.cols,
 
-			score: 0,
-
 			usePieceDepth: false,
-			useBoardInnerShadow: false
+			useBoardInnerShadow: false,
+
+			processing: false
 		}
 	},
 	computed: {
@@ -54,14 +54,24 @@ export default {
 	},
 	methods: {
 		makeMove(col) {
+			if (this.processing) {
+				return;
+			}
 			if (!this.fullColumn[col]) {
 				Game.doMove(col);
 			} else {
 				console.warn("Can't place piece in full column!");
 			}
 		},
-		makeMonteCarloBestMove() {
-			const results = monteCarloBestMove(this.game.clone(), 200);
+		async makeMonteCarloBestMove() {
+			if (this.processing) {
+				return;
+			}
+
+			this.processing = true;
+			const results = await monteCarloBestMove(this.game.clone(), 2000);
+			this.processing = false;
+
 			this.makeMove(results[0].move);
 		}
 	}
