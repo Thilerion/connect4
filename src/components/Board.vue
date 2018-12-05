@@ -2,22 +2,26 @@
 <div class="board-container">
 	<div class="top-container">
 		<div class="player-score p1" :class="{active: currentPlayer === P1, win: winner === P1, lose: winner === P2}">
-			<span class="player-name" v-if="winner === P1">{{playerOneString}} WINS!</span>
-			<span class="player-name" v-else>{{playerOneString}}</span>
+			<span class="player-name">{{playerOneString}}</span>
 			<span class="score">{{P1wins}}</span>
 		</div>
 
-		<div class="controls">
+		<!-- <div class="controls">
 			<button class="control-btn" @click="newGame" v-if="gameEnd">Play again!</button>
 			<button class="control-btn" @click="newGame" v-else>New game</button>
 
 			<button class="control-btn" @click="unmakeMove">Undo</button>
 			<button class="control-btn" @click="makeMonteCarloBestMove">MC Move</button>
+		</div> -->
+		<transition name="game-end">
+		<div class="play-again" v-show="gameEnd">
+			<span>Player {{winner}} wins!</span>
+			<button class="control-btn" @click="newGame">Play again</button>
 		</div>
+		</transition>
 
 		<div class="player-score p2" :class="{active: currentPlayer === P2, win: winner === P2, lose: winner === P1}">
-			<span class="player-name" v-if="winner === P2">{{playerTwoString}} WINS!</span>
-			<span class="player-name" v-else>{{playerTwoString}}</span>
+			<span class="player-name">{{playerTwoString}}</span>
 			<span class="score">{{P2wins}}</span>
 		</div>
 	</div>
@@ -148,17 +152,34 @@ export default {
 
 .top-container {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	justify-content: center;
+	align-items: flex-end;
 	padding: 0 3px;
 	margin-top: 2rem;
+	height: 6rem;
 }
 
-.controls {
-	flex: 1 1 auto;
-	display: flex;
-	align-items: center;
-	justify-content: space-around;
+.play-again {
+	width: 15rem;
+	flex: 0 1 auto;
+	overflow: hidden;
+}
+
+.play-again > span {
+	height: 3rem;
+	line-height: 3rem;
+	font-size: 1.5rem;
+	white-space: nowrap;
+	text-align: center;
+}
+
+.game-end-enter-active, .game-end-leave-active {
+	/* transition: width .2s ease; */
+	transition: width .9s ease;
+}
+
+.game-end-enter, .game-end-leave-to {
+	width: 0;
 }
 
 .control-btn {
@@ -166,14 +187,19 @@ export default {
 	background: none;
 	border: 2px solid var(--color-secondary);
 	color: var(--color-secondary);
+	font-weight: 600;
 	border-radius: 3px;
 	font-size: 1.2rem;
 	cursor: pointer;
+	width: 10rem;
+	height: 3rem;
+	transition: background .1s ease, color .1s ease;
+	outline: none;
 }
 
-.controls > button {
-	width: 10rem;
-	height: 4rem;
+.control-btn:hover {
+	background: var(--color-secondary);
+	color: var(--color-bg);
 }
 
 .player-score {
