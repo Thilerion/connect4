@@ -315,17 +315,19 @@ export default {
 
 .col:last-child .cell {
 	border-right-width: 1px;
-	border-color: var(--col-bg-main);
+	border-right-color: var(--col-bg-main);
 }
 
 .col:first-child .cell {
 	border-left-width: 1px;
-	border-color: var(--col-bg-main);
+	border-left-color: var(--col-bg-main);
 }
 
 .cell-overlay, .cell-overlay-shadow {
 	width: 100%;
 	height: 100%;
+	align-self: stretch;
+	justify-self: stretch;
 	position: absolute;
 }
 
