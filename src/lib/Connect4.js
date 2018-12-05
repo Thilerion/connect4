@@ -22,12 +22,10 @@ export default class Game {
 		this.history = [];
 	}
 
-	copy() {
-		const copy = new Game(this._settings, JSON.parse(JSON.stringify(this.grid)));
-		copy.nextPieceAtHeight = this.nextPieceAtHeight.slice();
-		copy.currentPlayer = this.currentPlayer;
-		copy.history = this.history.slice(); // TODO: maybe also JSON parse/stringify?
-		return copy;
+	clone() {
+		let clone = Object.assign({}, JSON.parse(JSON.stringify(this)));
+		Object.setPrototypeOf(clone, Object.getPrototypeOf(this));
+		return clone;
 	}
 
 	availableMoves() {
