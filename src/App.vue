@@ -1,17 +1,98 @@
 <template>
 	<div id="app">
-		<h1>connect4</h1>
-		<C4Board/>
+		<h1>Connect4</h1>
+		<C4Board v-bind="{cols, rows, currentPlayer, board, winner, gameEnd, p1: players[1], p2: players[2]}" />
 	</div>
 </template>
 
 <script>
+import Connect4Game from './lib/Connect4.js';
+import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from './lib/Constants.js';
+
+const settings = { ...SETTINGS };
+
 import C4Board from './components/Board.vue';
 
 export default {
 	name: "app",
 	components: {
 		C4Board
+	},
+	data() {
+		return {
+			settings: settings,
+			Game: {},
+			players: {
+				[PLAYER_ONE]: {
+					id: PLAYER_ONE,
+					name: "player",
+					type: HUMAN,
+					aiAlgorithm: null,
+					wins: 0
+				},
+				[PLAYER_TWO]: {
+					id: PLAYER_TWO,
+					name: "ai",
+					type: HUMAN,
+					aiAlgorithm: null,
+					wins: 0
+				} 
+			}
+		}
+	},
+	computed: {
+		cols() {
+			return this.Game.cols;
+		},
+		rows() {
+			return this.Game.rows;
+		},
+		currentPlayer() {
+			return this.Game.currentPlayer;
+		},
+		board() {
+			return this.Game.grid;
+		},
+		gameEnd() {
+			return this.Game.gameEnd;
+		},
+		winner() {
+			return this.Game.winner;
+		}
+	},
+	methods: {
+		newGame() {
+			this.Game = new Connect4Game(this.settings);
+		},
+		resetScore() {
+			for (const player of Object.values(this.players)) {
+				player.wins = 0;
+			}
+		},
+		resetSettings() {
+			this.settings = {...SETTINGS};
+		},
+		resetAll() {
+			this.resetSettings();
+			this.newGame();
+			this.resetScore();
+		},
+		doMove(col) {
+			this.Game.doMove(col);
+		},
+		undoMove() {
+			this.Game.undoMove();
+		}
+	},
+	beforeMount() {
+		this.newGame();
+	},
+	watch: {
+		gameEnd(newValue, oldValue) {
+			if (!oldValue && !!newValue) {
+				this.players[this.winner].wins++;
+			}
+		}
 	}
 };
 </script>
@@ -54,6 +135,7 @@ h1 {
 	margin: 0;
 	font-size: 9.7rem;
 	letter-spacing: 0.1rem;
+	text-transform: lowercase;
 }
 
 #app {

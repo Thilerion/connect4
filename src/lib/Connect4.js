@@ -2,6 +2,7 @@ import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, TIE } from './Constants.js'
 
 export default class Game {
 	constructor(settings = SETTINGS, grid) {
+		console.log(settings);
 		this._settings = settings;
 
 		this.rows = settings.ROWS;

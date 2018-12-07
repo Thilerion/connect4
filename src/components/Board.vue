@@ -2,17 +2,9 @@
 <div class="board-container">
 	<div class="top-container">
 		<div class="player-score p1" :class="{active: currentPlayer === P1, win: winner === P1, lose: winner === P2}">
-			<span class="player-name">{{playerOneString}}</span>
+			<span class="player-name">{{playerName(P1)}}</span>
 			<span class="score">{{P1wins}}</span>
 		</div>
-
-		<!-- <div class="controls">
-			<button class="control-btn" @click="newGame" v-if="gameEnd">Play again!</button>
-			<button class="control-btn" @click="newGame" v-else>New game</button>
-
-			<button class="control-btn" @click="unmakeMove">Undo</button>
-			<button class="control-btn" @click="makeMonteCarloBestMove">MC Move</button>
-		</div> -->
 		<transition name="game-end">
 		<div class="play-again" v-show="gameEnd">
 			<span>Player {{winner}} wins!</span>
@@ -21,7 +13,7 @@
 		</transition>
 
 		<div class="player-score p2" :class="{active: currentPlayer === P2, win: winner === P2, lose: winner === P1}">
-			<span class="player-name">{{playerTwoString}}</span>
+			<span class="player-name">{{playerName(P2)}}</span>
 			<span class="score">{{P2wins}}</span>
 		</div>
 	</div>
@@ -44,34 +36,25 @@
 </template>
 
 <script>
-import Connect4Game from '../lib/Connect4.js';
-import { monteCarloBestMove } from '../lib/MonteCarlo.js';
-
-import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from '../lib/Constants.js';
-
 import Piece from './Piece.vue';
 
+import { PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from '../lib/Constants.js';
+
 export default {
+	props: [
+		'cols', 'rows', 'currentPlayer', 'board', 'winner', 'gameEnd', 'p1', 'p2'
+	],
 	data() {
 		return {
-			game: new Connect4Game(),
 			P1: PLAYER_ONE,
 			P2: PLAYER_TWO,
 			noPiece: NO_PIECE,
-
-			score: 0,
 
 			usePieceDepth: true,
 			useBoardInnerShadow: false,
 
 			P1type: HUMAN,
 			P2type: AI,
-
-			P1wins: 0,
-			P2wins: 0,
-
-			usePieceDepth: true,
-			useBoardInnerShadow: true,
 
 			processing: false
 		}
@@ -80,87 +63,79 @@ export default {
 		Piece
 	},
 	computed: {
-		rows() {
-			return this.game.rows;
-		},
-		cols() {
-			return this.game.cols;
-		},
-		board() {
-			return this.game.grid;
-		},
 		fullColumn() {
 			return this.board.map(col => col[col.length - 1] !== NO_PIECE);
 		},
-		currentPlayer() {
-			return this.game.currentPlayer;
+		P1wins() {
+			return this.p1.wins;
 		},
-		currentPlayerType() {
-			if (this.currentPlayer === this.P1) return this.P1type;
-			else if (this.currentPlayer === this.P2) return this.P2type;
-		},
-		playerOneString() {
-			if (this.P1type === HUMAN) {
-				return "player"
-			} else return "ai";
-		},
-		playerTwoString() {
-			if (this.P2type === HUMAN) {
-				return "player"
-			} else return "ai";
-		},
-		gameEnd() {
-			return this.game.gameEnd;
-		},
-		winner() {
-			if (!this.gameEnd) return;
-			return this.game.winner;
+		P2wins() {
+			return this.p2.wins;
 		}
 	},
 	methods: {
-		makeMove(col) {
-			if (this.processing) {
-				return;
+		playerName(player) {
+			let playerType;
+			if (player === PLAYER_ONE) {
+				playerType = this.P1type;
+			} else if (player === PLAYER_TWO) {
+				playerType = this.P2type;
 			}
-			if (!this.fullColumn[col]) {
-				this.game.doMove(col);
-			} else {
-				console.warn("Can't place piece in full column!");
-			}
+			if (playerType === HUMAN) return 'player';
+			else if (playerType === AI) return 'ai';
 		},
-		async makeMonteCarloBestMove() {
-			if (this.processing) {
-				return;
-			}
+		tryMove(col) {
 
-			this.processing = true;
-			const results = await monteCarloBestMove(this.game.clone(), 2000);
-			this.processing = false;
+		},
+		makeMove(col) {
 
-			this.makeMove(results[0].move);
 		},
 		newGame() {
-			this.game = new Connect4Game();
+
 		}
-	},
-	watch: {
-		winner(newVal, oldVal) {
-			if (newVal === PLAYER_ONE) {
-				this.P1wins++;
-			} else if (newVal === PLAYER_TWO) {
-				this.P2wins++;
-			}
-		},
-		currentPlayer: {
-			handler(newVal, oldVal) {
-				if (this.currentPlayerType === AI) {
-					setTimeout(() => {
-						this.makeMonteCarloBestMove();
-					}, 0);
-				}
-			},
-			immediate: true
-		}
+	// 	makeMove(col) {
+	// 		if (this.processing) {
+	// 			return;
+	// 		}
+	// 		if (!this.fullColumn[col]) {
+	// 			this.game.doMove(col);
+	// 		} else {
+	// 			console.warn("Can't place piece in full column!");
+	// 		}
+	// 	},
+	// 	async makeMonteCarloBestMove() {
+	// 		if (this.processing) {
+	// 			return;
+	// 		}
+
+	// 		this.processing = true;
+	// 		const results = await monteCarloBestMove(this.game.clone(), 2000);
+	// 		this.processing = false;
+
+	// 		this.makeMove(results[0].move);
+	// 	},
+	// 	newGame() {
+	// 		this.game = new Connect4Game();
+	// 	}
+	// },
+	// watch: {
+	// 	winner(newVal, oldVal) {
+	// 		if (newVal === PLAYER_ONE) {
+	// 			this.P1wins++;
+	// 		} else if (newVal === PLAYER_TWO) {
+	// 			this.P2wins++;
+	// 		}
+	// 	},
+	// 	currentPlayer: {
+	// 		handler(newVal, oldVal) {
+	// 			if (this.currentPlayerType === AI) {
+	// 				setTimeout(() => {
+	// 					this.makeMonteCarloBestMove();
+	// 				}, 0);
+	// 			}
+	// 		},
+	// 		immediate: true
+	// 	}
 	}
 }
 </script>
