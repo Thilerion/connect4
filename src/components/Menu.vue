@@ -1,17 +1,9 @@
 <template>
-	<ul class="menu" @mouseover="showText = true" @mouseleave="showText = false">
+	<ul class="menu" @mouseover="showText = true" @mouseleave="showText = false">	
 		<li class="menu-item">
 			<button class="menu-btn" @click="$emit('newGame')">
 				<transition name="btn-text">
-					<span class="btn-text" v-show="showText">Restart Game</span>
-				</transition>
-				<svg class="btn-icon" :width="iconSize" :height="iconSize" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path xmlns="http://www.w3.org/2000/svg" d="M21 13H13V21H11V13H3V11H11V3H13V11H21V13Z"/></svg>
-			</button>
-		</li>
-		<li class="menu-item">
-			<button class="menu-btn" @click="$emit('resetAll')">
-				<transition name="btn-text">
-					<span class="btn-text" v-show="showText">Reset All</span>
+					<span class="btn-text" v-show="showText">Restart</span>
 				</transition>
 				<svg class="btn-icon" :width="iconSize" :height="iconSize" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 				<path d="M12 6V2L7 7L12 12V8C15.31 8 18 10.69 18 14C18 17.31 15.31 20 12 20C8.69 20 6 17.31 6 14H4C4 18.42 7.58 22 12 22C16.42 22 20 18.42 20 14C20 9.58 16.42 6 12 6Z"/>
@@ -21,7 +13,7 @@
 		<li class="menu-item">
 			<button class="menu-btn" @click="$emit('undoMove')">
 				<transition name="btn-text">
-					<span class="btn-text" v-show="showText">Undo Last Move</span>
+					<span class="btn-text" v-show="showText">Undo</span>
 				</transition>
 				<svg class="btn-icon" :width="iconSize" :height="iconSize" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 				<path d="M12.5 8C9.85 8 7.45 8.99 5.6 10.6L2 7V16H11L7.38 12.38C8.77 11.22 10.54 10.5 12.5 10.5C16.04 10.5 19.05 12.81 20.1 16L22.47 15.22C21.08 11.03 17.15 8 12.5 8Z"/>
@@ -84,7 +76,7 @@ export default {
 }
 
 .menu:hover .menu-btn {
-	opacity: 0.7;
+	opacity: 1;
 }
 
 .menu-btn:hover {
@@ -96,6 +88,8 @@ export default {
 	display: inline-block;
 	margin-right: 1rem;
 	color: inherit;
+	font-weight: 500;
+	letter-spacing: 0.5px;
 }
 
 .btn-text-enter-active, .btn-text-leave-active {

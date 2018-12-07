@@ -22,17 +22,19 @@
 			@newGame="newGame"
 		/>
 		<div class="main">
-			<C4Board
-				:class="blurWindow"
-				v-bind="{
-					cols,
-					rows,
-					board,
-					uiSettings
-				}"
-				@doMove="doMove"
-			/>
-			<C4Settings v-if="uiSettings.showSettings" @closeSettings="uiSettings.showSettings = false" />
+			<transition mode="out-in" name="fade-in">
+				<C4Board
+					v-bind="{
+						cols,
+						rows,
+						board,
+						uiSettings
+					}"
+					@doMove="doMove"
+					v-if="!uiSettings.showSettings"
+				/>
+				<C4Settings v-else-if="uiSettings.showSettings" @closeSettings="uiSettings.showSettings = false" />
+			</transition>
 		</div>
 	</div>
 </template>
@@ -107,11 +109,6 @@ export default {
 		},
 		p2() {
 			return this.players[PLAYER_TWO]
-		},
-		blurWindow() {
-			if (this.uiSettings.showSettings) {
-				return 'blur';
-			}
 		}
 	},
 	methods: {
@@ -211,8 +208,11 @@ h1 {
 	margin-top: 1rem;
 }
 
-.blur {
-	transition: filter .4s ease-out;
-	filter: blur(20px);
+.fade-in-enter-active, .fade-in-leave-active {
+	transition: opacity .2s linear;
+}
+
+.fade-in-enter, .fade-in-leave-to {
+	opacity: 0;
 }
 </style>
