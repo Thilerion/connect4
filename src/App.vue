@@ -1,6 +1,7 @@
 <template>
 	<div id="app">
 		<h1>Connect4</h1>
+		<C4Scoreboard v-bind="{p1: players[1], p2: players[2], winner, gameEnd}" @newGame="newGame" />
 		<C4Board v-bind="{cols, rows, currentPlayer, board, winner, gameEnd, p1: players[1], p2: players[2]}" />
 	</div>
 </template>
@@ -12,11 +13,13 @@ import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from './lib/Con
 const settings = { ...SETTINGS };
 
 import C4Board from './components/Board.vue';
+import C4Scoreboard from './components/Scoreboard.vue';
 
 export default {
 	name: "app",
 	components: {
-		C4Board
+		C4Board,
+		C4Scoreboard
 	},
 	data() {
 		return {
