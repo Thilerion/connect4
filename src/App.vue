@@ -2,7 +2,7 @@
 	<div id="app">
 		<h1>Connect4</h1>
 		<C4Scoreboard v-bind="{p1: players[1], p2: players[2], winner, gameEnd}" @newGame="newGame" />
-		<C4Board v-bind="{cols, rows, currentPlayer, board, winner, gameEnd, p1: players[1], p2: players[2]}" />
+		<C4Board v-bind="{cols, rows, currentPlayer, board, winner, gameEnd, p1: players[1], p2: players[2]}" @doMove="doMove" />
 	</div>
 </template>
 

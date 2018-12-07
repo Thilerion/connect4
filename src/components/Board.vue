@@ -1,8 +1,6 @@
 <template>
-<div class="board-container">
-	
 	<div class="board">
-		<div v-for="(col, x) in board" :key="x" class="col" @click="makeMove(x)" :class="{'col-full': fullColumn[x]}">
+		<div v-for="(col, x) in board" :key="x" class="col" @click="$emit('doMove', x)" :class="{'col-full': fullColumn[x]}">
 			<div v-for="(cell, y) in col" :key="y" class="cell" :style="{'--col-height': `${(rows + 1 - y) * -100}%`, '--row': `${rows - y}`}">
 				<transition name="fall-piece">
 					<Piece
@@ -16,7 +14,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 </template>
 
 <script>
@@ -37,9 +34,6 @@ export default {
 			usePieceDepth: true,
 			useBoardInnerShadow: false,
 
-			P1type: HUMAN,
-			P2type: AI,
-
 			processing: false
 		}
 	},
@@ -49,25 +43,9 @@ export default {
 	computed: {
 		fullColumn() {
 			return this.board.map(col => col[col.length - 1] !== NO_PIECE);
-		},
-		P1wins() {
-			return this.p1.wins;
-		},
-		P2wins() {
-			return this.p2.wins;
 		}
 	},
 	methods: {
-		playerName(player) {
-			let playerType;
-			if (player === PLAYER_ONE) {
-				playerType = this.P1type;
-			} else if (player === PLAYER_TWO) {
-				playerType = this.P2type;
-			}
-			if (playerType === HUMAN) return 'player';
-			else if (playerType === AI) return 'ai';
-		},
 		tryMove(col) {
 
 		},
@@ -125,10 +103,6 @@ export default {
 </script>
 
 <style scoped>
-.board-container {
-	display: inline-block;
-}
-
 .board {
 	position: relative;
 	display: inline-flex;
