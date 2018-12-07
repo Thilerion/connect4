@@ -1,8 +1,25 @@
 <template>
 	<div id="app">
 		<h1>Connect4</h1>
-		<C4Scoreboard v-bind="{p1: players[1], p2: players[2], winner, gameEnd}" @newGame="newGame" />
-		<C4Board v-bind="{cols, rows, currentPlayer, board, winner, gameEnd, p1: players[1], p2: players[2]}" @doMove="doMove" />
+		<C4Scoreboard 
+			v-bind="{
+				p1,
+				p2,
+				winner,
+				gameEnd,
+				currentPlayer
+			}"
+			@newGame="newGame"
+		/>
+		<C4Board
+			v-bind="{
+				cols,
+				rows,
+				board,
+				uiSettings
+			}"
+			@doMove="doMove"
+		/>
 	</div>
 </template>
 
@@ -10,7 +27,7 @@
 import Connect4Game from './lib/Connect4.js';
 import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from './lib/Constants.js';
 
-const settings = { ...SETTINGS };
+const gameSettings = { ...SETTINGS };
 
 import C4Board from './components/Board.vue';
 import C4Scoreboard from './components/Scoreboard.vue';
@@ -23,7 +40,11 @@ export default {
 	},
 	data() {
 		return {
-			settings: settings,
+			gameSettings,
+			uiSettings: {
+				pieceDepth: true,
+				boardInnerShadow: true
+			},
 			Game: {},
 			players: {
 				[PLAYER_ONE]: {
@@ -61,6 +82,12 @@ export default {
 		},
 		winner() {
 			return this.Game.winner;
+		},
+		p1() {
+			return this.players[PLAYER_ONE]
+		},
+		p2() {
+			return this.players[PLAYER_TWO]
 		}
 	},
 	methods: {
