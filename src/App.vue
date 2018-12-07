@@ -1,6 +1,11 @@
 <template>
 	<div id="app">
-		<h1>Connect4</h1>
+		<header>
+			<h1>Connect4</h1>
+			<div class="menu-container">
+				<C4Menu/>
+			</div>
+		</header>
 		<C4Scoreboard 
 			v-bind="{
 				p1,
@@ -31,12 +36,14 @@ const gameSettings = { ...SETTINGS };
 
 import C4Board from './components/Board.vue';
 import C4Scoreboard from './components/Scoreboard.vue';
+import C4Menu from './components/Menu.vue';
 
 export default {
 	name: "app",
 	components: {
 		C4Board,
-		C4Scoreboard
+		C4Scoreboard,
+		C4Menu
 	},
 	data() {
 		return {
@@ -172,5 +179,11 @@ h1 {
 	min-height: 100vh;
 	padding-top: 1rem;	
 	text-align: center;
+}
+
+.menu-container {
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 </style>
