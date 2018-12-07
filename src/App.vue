@@ -32,8 +32,13 @@
 					}"
 					@doMove="doMove"
 					v-if="!uiSettings.showSettings"
+					key="show-board"
 				/>
-				<C4Settings v-else-if="uiSettings.showSettings" @closeSettings="uiSettings.showSettings = false" />
+				<C4Settings
+					v-else-if="uiSettings.showSettings" @closeSettings="uiSettings.showSettings = false"
+					key="show-settings"
+					v-bind="{gameSettings, players, uiSettings}"
+				/>
 			</transition>
 		</div>
 	</div>
@@ -169,6 +174,7 @@ html {
 	--color-p2: #B94626;
 	--color-primary: #E2A02C;
 	--color-secondary: rgb(229, 210, 143);
+	--color-tertiary: rgb(233, 226, 203);
 	font-size: 62.5%;
 }
 
