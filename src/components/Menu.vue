@@ -1,17 +1,17 @@
 <template>
 	<ul class="menu" @mouseover="showText = true" @mouseleave="showText = false">
 		<li class="menu-item">
-			<button class="menu-btn">
+			<button class="menu-btn" @click="$emit('newGame')">
 				<transition name="btn-text">
-					<span class="btn-text" v-show="showText">New Game</span>
+					<span class="btn-text" v-show="showText">Restart Game</span>
 				</transition>
 				<svg class="btn-icon" :width="iconSize" :height="iconSize" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path xmlns="http://www.w3.org/2000/svg" d="M21 13H13V21H11V13H3V11H11V3H13V11H21V13Z"/></svg>
 			</button>
 		</li>
 		<li class="menu-item">
-			<button class="menu-btn">
+			<button class="menu-btn" @click="$emit('resetAll')">
 				<transition name="btn-text">
-					<span class="btn-text" v-show="showText">Restart</span>
+					<span class="btn-text" v-show="showText">Reset All</span>
 				</transition>
 				<svg class="btn-icon" :width="iconSize" :height="iconSize" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 				<path d="M12 6V2L7 7L12 12V8C15.31 8 18 10.69 18 14C18 17.31 15.31 20 12 20C8.69 20 6 17.31 6 14H4C4 18.42 7.58 22 12 22C16.42 22 20 18.42 20 14C20 9.58 16.42 6 12 6Z"/>
@@ -19,7 +19,7 @@
 			</button>
 		</li>
 		<li class="menu-item">
-			<button class="menu-btn">
+			<button class="menu-btn" @click="$emit('undoMove')">
 				<transition name="btn-text">
 					<span class="btn-text" v-show="showText">Undo Last Move</span>
 				</transition>
@@ -29,7 +29,7 @@
 			</button>
 		</li>
 		<li class="menu-item">
-			<button class="menu-btn">
+			<button class="menu-btn" @click="$emit('openSettings')">
 				<transition name="btn-text">
 					<span class="btn-text" v-show="showText">Options</span>
 				</transition>
@@ -43,7 +43,7 @@
 export default {
 	data() {
 		return {
-			showText: true,
+			showText: false,
 			iconSize: 24
 		}
 	}
@@ -53,7 +53,7 @@ export default {
 <style scoped>
 .menu {
 	padding: 0.75rem;
-	min-width: 10rem;
+	min-width: 15rem;
 	display: flex;
 	flex-direction: column;
 	text-align: right;
@@ -69,15 +69,17 @@ export default {
 	font-size: 1.4rem;
 	text-transform: uppercase;
 	padding: 0.5rem;
+	padding-left: 1rem;
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
 	justify-content: flex-end;
 	opacity: 0.5;
-	transition: opacity .25s ease;
+	transition: opacity .25s ease, background .15s ease, color .15s ease;
 }
 
 .btn-icon {
+	color: inherit;
 	fill: currentColor;
 }
 
@@ -85,13 +87,15 @@ export default {
 	opacity: 0.7;
 }
 
-.menu:hover .menu-btn:hover {
-	opacity: 1;
+.menu-btn:hover {
+	background-color: var(--color-secondary);
+	color: var(--color-bg);
 }
 
 .btn-text {
 	display: inline-block;
 	margin-right: 1rem;
+	color: inherit;
 }
 
 .btn-text-enter-active, .btn-text-leave-active {

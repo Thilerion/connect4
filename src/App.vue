@@ -3,7 +3,12 @@
 		<header>
 			<h1>Connect4</h1>
 			<div class="menu-container">
-				<C4Menu/>
+				<C4Menu
+					@undoMove="undoMove"
+					@resetAll="resetAll"
+					@newGame="newGame"
+					@openSettings="uiSettings.showSettings = true"
+				/>
 			</div>
 		</header>
 		<C4Scoreboard 
@@ -25,6 +30,7 @@
 			}"
 			@doMove="doMove"
 		/>
+		<C4Settings v-if="uiSettings.showSettings" />
 	</div>
 </template>
 
@@ -37,20 +43,23 @@ const gameSettings = { ...SETTINGS };
 import C4Board from './components/Board.vue';
 import C4Scoreboard from './components/Scoreboard.vue';
 import C4Menu from './components/Menu.vue';
+import C4Settings from './components/Settings.vue';
 
 export default {
 	name: "app",
 	components: {
 		C4Board,
 		C4Scoreboard,
-		C4Menu
+		C4Menu,
+		C4Settings
 	},
 	data() {
 		return {
 			gameSettings,
 			uiSettings: {
 				pieceDepth: true,
-				boardInnerShadow: true
+				boardInnerShadow: true,
+				showSettings: false
 			},
 			Game: {},
 			players: {
