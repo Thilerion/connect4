@@ -48,7 +48,8 @@ export default {
 	height: 75%;
 	border-radius: 50%;
 	margin: auto;
-	box-shadow: inset -1px 0.75px 5px -1px rgba(0, 0, 0, 0.3), inset 1px -0.75px 5px -1px rgba(255, 255, 255, 0.2);
+	box-shadow: inset -1px 0.75px 5px -1px rgba(0, 0, 0, 0.4), inset 1.5px -1px 1.5px -1px rgba(255, 255, 255, 0.35);
+	background: linear-gradient(220deg, rgba(255,255,255,0.1) -20%, transparent 70%);
 }
 
 .piece.piece-one {
