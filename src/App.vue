@@ -11,7 +11,7 @@
 				/>
 			</div>
 		</header>
-		<C4Scoreboard 
+		<C4Scoreboard
 			v-bind="{
 				p1,
 				p2,
@@ -21,16 +21,19 @@
 			}"
 			@newGame="newGame"
 		/>
-		<C4Board
-			v-bind="{
-				cols,
-				rows,
-				board,
-				uiSettings
-			}"
-			@doMove="doMove"
-		/>
-		<C4Settings v-if="uiSettings.showSettings" />
+		<div class="main">
+			<C4Board
+				:class="blurWindow"
+				v-bind="{
+					cols,
+					rows,
+					board,
+					uiSettings
+				}"
+				@doMove="doMove"
+			/>
+			<C4Settings v-if="uiSettings.showSettings" @closeSettings="uiSettings.showSettings = false" />
+		</div>
 	</div>
 </template>
 
@@ -104,6 +107,11 @@ export default {
 		},
 		p2() {
 			return this.players[PLAYER_TWO]
+		},
+		blurWindow() {
+			if (this.uiSettings.showSettings) {
+				return 'blur';
+			}
 		}
 	},
 	methods: {
@@ -194,5 +202,17 @@ h1 {
 	position: absolute;
 	right: 0;
 	top: 0;
+}
+
+.main {
+	position: relative;
+	display: inline-block;
+	padding: 1rem;
+	margin-top: 1rem;
+}
+
+.blur {
+	transition: filter .4s ease-out;
+	filter: blur(20px);
 }
 </style>

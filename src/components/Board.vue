@@ -57,7 +57,6 @@ export default {
 	border-radius: 0 0 15px 15px;
 	border: 3px solid var(--color-board-border-main);
 	border-top-width: 0px;
-	margin-top: 2rem;
 }
 
 .col {

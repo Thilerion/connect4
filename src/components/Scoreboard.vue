@@ -36,7 +36,7 @@ export default {
 	align-items: flex-end;
 	padding: 0 3px;
 	margin-top: 2rem;
-	height: 6rem;
+	margin-bottom: 1rem;
 }
 
 .play-again {
