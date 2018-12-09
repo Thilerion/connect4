@@ -146,7 +146,7 @@ export default {
 	},
 	watch: {
 		gameEnd(newValue, oldValue) {
-			if (!oldValue && !!newValue && newValue !== TIE) {
+			if (!oldValue && !!newValue && this.winner !== TIE) {
 				this.players[this.winner].wins++;
 			}
 		}
