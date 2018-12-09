@@ -1,7 +1,7 @@
 <template>
 	<div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" @click="$emit('doMove', x)" :class="{'col-full': fullColumn[x]}">
-			<div v-for="(cell, y) in col" :key="y" class="cell" :style="rowColHeightStyle(y)">
+			<div v-for="(cell, y) in col" :key="y" class="cell" :style="rowColHeightStyle[rows - 1 - y]">
 				<transition name="fall-piece">
 					<Piece
 						:useDepth="usePieceDepth"
@@ -44,20 +44,37 @@ export default {
 		},
 		useBoardInnerShadow() {
 			return this.uiSettings.boardInnerShadow;
-		}		
-	},
-	methods: {
-		rowColHeightStyle(y) {
-			const row = this.rows - y;
-			const colHeight = (this.rows + 1 - y) * -100;
-			return {
-				'--col-height': `${colHeight}%`,
-				'--row': row,
-				'--bounce-dur': `${row * 0.04 + 0.3}s`,
-				'--bounce-dy1': `${(colHeight * Math.sqrt(row)) / (12 * 8)}%`,
-				'--bounce-dy2': `${(colHeight * Math.sqrt(row)) / (24 * 8)}%`,
-				'--bounce-dy3': `${(colHeight * Math.sqrt(row)) / (48 * 8)}%`
-			};
+		},
+		rowColHeightStyle() {
+			return Array(this.rows).fill(0).map((val, index) => {
+				const y = this.rows - 1 - index;
+				const row = this.rows - y;
+
+				const colHeight = (this.rows + 1 - y) * -100;
+				const bounceDur = row * 0.025 + 0.6;
+				const bounceDyBase = colHeight * Math.sqrt(row * 24);
+				let bounces = {
+					dy1: bounceDyBase / (12 * 24),
+					dy2: bounceDyBase / (24 * 24),
+					dy3: bounceDyBase / (64 * 24)
+				};
+
+				for (const dy in bounces) {
+					if (bounces[dy] > -5) {
+						console.log(y);
+						bounces[dy] = 0;
+					}
+				}
+
+				return {
+					'--col-height': `${colHeight}%`,
+					'--row': row,
+					'--bounce-dur': `${bounceDur}s`,
+					'--bounce-dy1': `${bounces.dy1}%`,
+					'--bounce-dy2': `${bounces.dy2}%`,
+					'--bounce-dy3': `${bounces.dy3}%`
+				};
+			})
 		}
 	}
 }
