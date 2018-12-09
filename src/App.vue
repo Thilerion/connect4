@@ -164,7 +164,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500,700');
 
 *, *::before, *::after {
 	box-sizing: inherit;
@@ -202,6 +202,7 @@ h1 {
 	margin: 0;
 	font-size: 9.7rem;
 	letter-spacing: 0.1rem;
+	font-weight: 700;
 	text-transform: lowercase;
 }
 

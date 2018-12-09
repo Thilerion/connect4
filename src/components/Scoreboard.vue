@@ -86,7 +86,7 @@ export default {
 	background: none;
 	border: 2px solid var(--color-secondary);
 	color: var(--color-secondary);
-	font-weight: 600;
+	font-weight: 700;
 	border-radius: 3px;
 	font-size: 1.2rem;
 	cursor: pointer;
@@ -107,9 +107,8 @@ export default {
 	border: 3px solid;
 	border-radius: 1.25rem;
 	padding: 0 1rem;
-	font-weight: 600;
-	font-size: 1.5rem;
-	letter-spacing: 0.5px;
+	font-weight: 400;
+	font-size: 1.6rem;
 	transition: all .2s ease-in;
 	cursor: default;
 	display: flex;
