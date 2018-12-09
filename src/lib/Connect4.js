@@ -18,6 +18,7 @@ export default class Game {
 		this.currentPlayer = PLAYER_ONE;
 		this.gameEnd = false;
 		this.winner = null;
+		this.winningPieces = [];
 
 		this.history = [];
 	}
@@ -103,41 +104,68 @@ export default class Game {
 		if (this.gameEnd) {
 			this.gameEnd = false;
 			this.winner = null;
+			this.winningPieces = [];
 		}
 
 		return this.nextPlayer();
 	}
 
-	checkWin(col, row) {
-		const win = this.checkHorizontals(col, row) ||
-			this.checkVerticals(col, row) ||
-			this.checkDiagsBackward(col, row) ||
-			this.checkDiagsForward(col, row);
+	checkWin(col, row, rememberWinningPieces = true) {
 		
-		return win;
+		if (!rememberWinningPieces) {
+			const win = this.checkHorizontals(col, row, false) ||
+			this.checkVerticals(col, row, false) ||
+			this.checkDiagsBackward(col, row, false) ||
+			this.checkDiagsForward(col, row, false);
+		
+			return win;
+		}
+
+		else {
+			const hor = this.checkHorizontals(col, row, true);
+			const vert = this.checkVerticals(col, row, true);
+			const diagB = this.checkDiagsBackward(col, row, true);
+			const diagF = this.checkDiagsForward(col, row, true);
+
+			return hor || vert || diagB || diagF;
+		}
 	}
 
-	checkHorizontals(col, row) {
+	checkHorizontals(col, row, rememberWinningPieces = false) {
+		let hasFoundWin = false;
+
 		for (let x = Math.max(0, col - 3); x <= col && x + 3 < this.cols; x++) {
 			// all row-lines where the newly placed piece is in
 			// console.log(`Column ${x}`);
 			let isWin = this.checkLineWin({ x, y: row, dx: 1, dy: 0 });
-			if (isWin) return isWin;
+			if (isWin && rememberWinningPieces) {
+				hasFoundWin = isWin;
+				this.winningPieces.push(...[[x, row], [x + 1, row], [x + 2, row], [x + 3, row]]);
+			} else if (isWin) return isWin;
 		}
-		return false;
+		if (hasFoundWin && rememberWinningPieces) {
+			return hasFoundWin;
+		} else return false;
 	}
 
-	checkVerticals(col, row) {
+	checkVerticals(col, row, rememberWinningPieces = false) {
+		let hasFoundWin = false;
+
 		for (let y = Math.max(0, row - 3); y <= row && y + 3 < this.rows; y++) {
 			// all col-lines where the newly placed piece is in
 			// console.log(`Height ${y}`);
 			let isWin = this.checkLineWin({ x: col, y, dx: 0, dy: 1 });
-			if (isWin) return isWin;
+			if (isWin && rememberWinningPieces) {
+				hasFoundWin = isWin;
+				this.winningPieces.push(...[[col, y], [col, y + 1], [col, y + 2], [col, y + 3]]);
+			} else if (isWin) return isWin;
 		}
-		return false;
+		if (hasFoundWin && rememberWinningPieces) {
+			return hasFoundWin;
+		} else return false;
 	}
 
-	checkDiagsBackward(col, row) {
+	checkDiagsBackward(col, row, rememberWinningPieces = false) {
 		// debugger;
 		const maxLeft = Math.min(3, col);
 		const maxUp = Math.min(3, this.rows - 1 - row);
@@ -152,16 +180,23 @@ export default class Game {
 				   (x + 3 < this.cols && y - 3 >= 0);
 		}
 
+		let hasFoundWin = false;
+
 		for (let x = xStart, y = yStart; searchConditions(x, y); x++, y--) {
 			// all backward diagonals where the newly placed piece is in
 			// console.log({ x, y, xEnd: x + 3, yEnd: y - 3 });
 			let isWin = this.checkLineWin({ x, y, dx: 1, dy: -1 });
-			if (isWin) return isWin;
+			if (isWin && rememberWinningPieces) {
+				hasFoundWin = isWin;
+				this.winningPieces.push(...[[x, y], [x + 1, y - 1], [x + 2, y - 2], [x + 3, y - 3]]);
+			} else if (isWin) return isWin;
 		}
-		return false;
+		if (hasFoundWin && rememberWinningPieces) {
+			return hasFoundWin;
+		} else return false;
 	}
 
-	checkDiagsForward(col, row) {
+	checkDiagsForward(col, row, rememberWinningPieces = false) {
 		// debugger;
 		const maxLeft = Math.min(3, col);
 		const maxDown = Math.min(3, row);
@@ -176,13 +211,21 @@ export default class Game {
 				   (x + 3 < this.cols && y + 3 <= this.rows);
 		}
 
+		let hasFoundWin = false;
+
 		for (let x = xStart, y = yStart; searchConditions(x, y); x++, y++) {
 			// all forward diagonals where the newly placed piece is in
 			// console.log({ x, y, xEnd: x + 3, yEnd: y + 3 });
 			let isWin = this.checkLineWin({ x, y, dx: 1, dy: 1 });
-			if (isWin) return isWin;
+			if (isWin && rememberWinningPieces) {
+				hasFoundWin = isWin;
+				this.winningPieces.push(...[[x, y], [x + 1, y + 1], [x + 2, y + 2], [x + 3, y + 3]]);
+			} else if (isWin) return isWin;
 		}
-		return false;
+
+		if (hasFoundWin && rememberWinningPieces) {
+			return hasFoundWin;
+		} else return false;
 	}
 
 	checkLineWin({ x, y, dx, dy }) {
