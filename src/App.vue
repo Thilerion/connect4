@@ -47,7 +47,7 @@
 
 <script>
 import Connect4Game from './lib/Connect4.js';
-import { SETTINGS, PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from './lib/Constants.js';
+import { SETTINGS, PLAYER_ONE, PLAYER_TWO, TIE, NO_PIECE, AI, HUMAN } from './lib/Constants.js';
 
 const gameSettings = { ...SETTINGS };
 
@@ -146,7 +146,7 @@ export default {
 	},
 	watch: {
 		gameEnd(newValue, oldValue) {
-			if (!oldValue && !!newValue) {
+			if (!oldValue && !!newValue && newValue !== TIE) {
 				this.players[this.winner].wins++;
 			}
 		}
