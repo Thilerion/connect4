@@ -1,14 +1,19 @@
 <template>
+<div class="scoreboard-container">
+	<div class="winner">
+		<span v-show="gameEnd">Player {{winner}} wins!</span>
+	</div>
 	<div class="scoreboard">
 		<div class="player-score p1" :class="{active: currentPlayer === p1.id, win: winner === p1.id, lose: winner === p2.id}">
 			<span class="player-name">{{p1.name}}</span>
 			<span class="score">{{p1.wins}}</span>
 		</div>
 		<transition name="game-end">
-		<div class="play-again" v-show="gameEnd">
-			<span>Player {{winner}} wins!</span>
-			<button class="control-btn" @click="newGame">Play again</button>
-		</div>
+			<div class="play-again" v-show="gameEnd">
+				<div class="inner-play-again">
+					<button class="control-btn" @click="newGame">Play again</button>
+				</div>
+			</div>
 		</transition>
 
 		<div class="player-score p2" :class="{active: currentPlayer === p2.id, win: winner === p2.id, lose: winner === p1.id}">
@@ -16,6 +21,8 @@
 			<span class="score">{{p2.wins}}</span>
 		</div>
 	</div>
+</div>
+	
 </template>
 
 <script>
@@ -30,36 +37,47 @@ export default {
 </script>
 
 <style scoped>
+.scoreboard-container {
+	margin-top: 1.2rem;
+	margin-bottom: 1rem;
+}
+
 .scoreboard {
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
 	padding: 0 3px;
-	margin-top: 2rem;
-	margin-bottom: 1rem;
 }
 
 .play-again {
-	width: 15rem;
-	flex: 0 1 auto;
+	flex: 0 1 15rem;
 	overflow: hidden;
+	display: flex;
+	justify-content: center;
 }
 
-.play-again > span {
+.inner-play-again {
+	display: inline-flex;
+	margin: auto;
+	flex-direction: column;
+}
+
+.winner {
 	height: 3rem;
 	line-height: 3rem;
-	font-size: 1.5rem;
+	font-size: 2.1rem;
 	white-space: nowrap;
 	text-align: center;
 }
 
 .game-end-enter-active, .game-end-leave-active {
-	/* transition: width .2s ease; */
-	transition: width .9s ease;
+	transition: flex-basis .4s ease, opacity .3s ease, transform .3s ease .1s;
 }
 
 .game-end-enter, .game-end-leave-to {
-	width: 0;
+	flex-basis: 0;
+	opacity: 0;
+	transform: scaleX(0);
 }
 
 .control-btn {
@@ -75,6 +93,7 @@ export default {
 	height: 3rem;
 	transition: background .1s ease, color .1s ease;
 	outline: none;
+	/* margin: 0 auto; */
 }
 
 .control-btn:hover {
