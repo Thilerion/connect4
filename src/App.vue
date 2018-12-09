@@ -9,7 +9,8 @@
 				p2,
 				winner,
 				gameEnd,
-				currentPlayer
+				currentPlayer,
+				isTie
 			}"
 			@newGame="newGame"
 		/>
@@ -109,6 +110,9 @@ export default {
 		},
 		winner() {
 			return this.Game.winner;
+		},
+		isTie() {
+			return this.winner === TIE;
 		},
 		p1() {
 			return this.players[PLAYER_ONE]

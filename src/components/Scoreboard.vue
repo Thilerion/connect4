@@ -1,7 +1,8 @@
 <template>
 <div class="scoreboard-container">
 	<div class="winner">
-		<span v-show="gameEnd">Player {{winner}} wins!</span>
+		<span v-show="gameEnd && !isTie">Player {{winner}} wins!</span>
+		<span v-show="gameEnd && isTie">It's a tie.</span>
 	</div>
 	<div class="scoreboard">
 		<div class="player-score p1" :class="{active: currentPlayer === p1.id, win: winner === p1.id, lose: winner === p2.id}">
@@ -27,7 +28,7 @@
 
 <script>
 export default {
-	props: ['p1', 'p2', 'currentPlayer', 'gameEnd', 'winner'],
+	props: ['p1', 'p2', 'currentPlayer', 'gameEnd', 'winner', 'isTie'],
 	methods: {
 		newGame() {
 			this.$emit('newGame');
