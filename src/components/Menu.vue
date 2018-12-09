@@ -61,8 +61,7 @@ export default {
 	all: unset;
 	font-size: 1.4rem;
 	text-transform: uppercase;
-	padding: 0.5rem;
-	padding-left: 1rem;
+	padding: 0.5rem 1rem;
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
