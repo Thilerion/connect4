@@ -1,7 +1,7 @@
 <template>
 	<div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" @click="$emit('doMove', x)" :class="{'col-full': fullColumn[x]}">
-			<div v-for="(cell, y) in col" :key="y" class="cell" :style="{'--col-height': `${(rows + 1 - y) * -100}%`, '--row': `${rows - y}`}">
+			<div v-for="(cell, y) in col" :key="y" class="cell" :style="rowColHeightStyle(y)">
 				<transition name="fall-piece">
 					<Piece
 						:useDepth="usePieceDepth"
@@ -44,6 +44,20 @@ export default {
 		},
 		useBoardInnerShadow() {
 			return this.uiSettings.boardInnerShadow;
+		}		
+	},
+	methods: {
+		rowColHeightStyle(y) {
+			const row = this.rows - y;
+			const colHeight = (this.rows + 1 - y) * -100;
+			return {
+				'--col-height': `${colHeight}%`,
+				'--row': row,
+				'--bounce-dur': `${row * 0.04 + 0.3}s`,
+				'--bounce-dy1': `${(colHeight * Math.sqrt(row)) / (12 * 8)}%`,
+				'--bounce-dy2': `${(colHeight * Math.sqrt(row)) / (24 * 8)}%`,
+				'--bounce-dy3': `${(colHeight * Math.sqrt(row)) / (48 * 8)}%`
+			};
 		}
 	}
 }
@@ -68,9 +82,9 @@ export default {
 	box-sizing: content-box;
 
 	--col-bg-main: var(--color-board);
-	--piece-size: 75px;
-	--piece-gradient-size: 35px;
-	--piece-gradient-size2: 36px;
+	--piece-size: 85px;
+	--piece-gradient-size: 38px;
+	--piece-gradient-size2: 39px;
 }
 
 .col.col-full {
@@ -149,10 +163,44 @@ export default {
 }
 
 .fall-piece-enter-active {
-	transition: all calc(var(--row) * 0.08s + 0.3s) ease-in;
+	animation: bounce-in var(--bounce-dur) ease-in;
 }
 
-.fall-piece-enter {
-	transform: translateY(var(--col-height));
+@keyframes bounce-in {
+  0% {
+    transform: translateY(var(--col-height));
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  38% {
+    transform: translateY(0rem);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(var(--bounce-dy1));
+    animation-timing-function: ease-in;
+  }
+  72% {
+    transform: translateY(0rem);
+    animation-timing-function: ease-out;
+  }
+  81% {
+    transform: translateY(var(--bounce-dy2));
+    -webkit-animation-timing-function: ease-in;
+  }
+  90% {
+    transform: translateY(0rem);
+    animation-timing-function: ease-out;
+  }
+  95% {
+    transform: translateY(var(--bounce-dy3));
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+    animation-timing-function: ease-out;
+  }
 }
+
 </style>

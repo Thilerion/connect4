@@ -185,7 +185,7 @@ body {
 	background-color: var(--color-bg);
 	color: var(--color-secondary);
 	font-family: Ubuntu, sans-serif;
-	font-size: 1.77rem;
+	font-size: 1.6rem;
 }
 
 h1 {
@@ -200,6 +200,7 @@ h1 {
 	min-height: 100vh;
 	padding-top: 1rem;	
 	text-align: center;
+	cursor: default;
 }
 
 .menu-container {
