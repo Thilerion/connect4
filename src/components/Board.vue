@@ -1,8 +1,14 @@
 <template>
 	<div class="board">
 		<div v-for="(col, x) in board" :key="x" class="col" @click="$emit('doMove', x)" :class="{'col-full': fullColumn[x]}">
-			<div v-for="(cell, y) in col" :key="y" class="cell" :style="rowColHeightStyle[rows - 1 - y]">
-				<transition name="fall-piece">
+			<div
+				v-for="(cell, y) in col"
+				:key="y"
+				class="cell"
+				:style="rowColHeightStyle[rows - 1 - y]"
+				:class="{'is-winner': !!winningPieces.find(([winX, winY]) => x === winX && y === winY)}"
+			>
+				<transition name="fall-piece" type="animation">
 					<Piece
 						:useDepth="usePieceDepth"
 						:player="cell"
@@ -23,7 +29,7 @@ import { PLAYER_ONE, PLAYER_TWO, NO_PIECE, AI, HUMAN } from '../lib/Constants.js
 
 export default {
 	props: [
-		'cols', 'rows', 'board', 'uiSettings'
+		'cols', 'rows', 'board', 'uiSettings', 'winningPieces'
 	],
 	data() {
 		return {
@@ -99,7 +105,7 @@ export default {
 	box-sizing: content-box;
 
 	--col-bg-main: var(--color-board);
-	--piece-size: 85px;
+	--piece-size: 86px;
 	--piece-gradient-size: 38px;
 	--piece-gradient-size2: 39px;
 }
@@ -147,18 +153,16 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-width: 0 1px 0 1px;
+	border-width: 0 1px;
 	border-style: solid;
 	border-color: var(--color-board-border-secondary);
 }
 
 .col:last-child .cell {
-	border-right-width: 1px;
 	border-right-color: var(--col-bg-main);
 }
 
 .col:first-child .cell {
-	border-left-width: 1px;
 	border-left-color: var(--col-bg-main);
 }
 
@@ -173,10 +177,24 @@ export default {
 }
 
 .cell-overlay-shadow {
+	position: absolute;
 	width: var(--piece-size);
 	height: var(--piece-size);
 	border-radius: 50%;
 	box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2);
+}
+
+.is-winner .cell-overlay-shadow {
+	animation: cell-win 1s infinite alternate .8s;
+}
+
+@keyframes cell-win {
+	from {
+		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 8px transparent;
+	}
+	to {
+		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 8px var(--color-primary);
+	}
 }
 
 .fall-piece-enter-active {

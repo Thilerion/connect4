@@ -21,7 +21,8 @@
 						cols,
 						rows,
 						board,
-						uiSettings
+						uiSettings,
+						winningPieces
 					}"
 					@doMove="doMove"
 					v-if="!uiSettings.showSettings"
@@ -113,6 +114,9 @@ export default {
 		},
 		isTie() {
 			return this.winner === TIE;
+		},
+		winningPieces() {
+			return this.Game.winningPieces;
 		},
 		p1() {
 			return this.players[PLAYER_ONE]

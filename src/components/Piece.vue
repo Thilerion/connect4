@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="piece"
-		:class="playerClass"
+		:class="[playerClass]"
 		:style="pieceSize"
 	>
 		<div v-if="useDepth" class="piece-inner"></div>
@@ -41,6 +41,10 @@ export default {
 	height: var(--piece-size); */
 	border-radius: 50%;
 	display: flex;
+}
+
+.piece.is-winner {
+	border: 6px solid red;
 }
 
 .piece-inner {
