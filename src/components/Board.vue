@@ -58,11 +58,10 @@ export default {
 
 				const colHeight = (this.rows + 1 - y) * -100;
 				const bounceDur = row * 0.025 + 0.6;
-				const bounceDyBase = colHeight * Math.sqrt(row * 24);
+				const bounceDyBase = colHeight * Math.sqrt(row * 2);
 				let bounces = {
-					dy1: bounceDyBase / (12 * 24),
-					dy2: bounceDyBase / (24 * 24),
-					dy3: bounceDyBase / (64 * 24)
+					dy1: bounceDyBase / (1 * 55),
+					dy2: bounceDyBase / (3 * 55)
 				};
 
 				for (const dy in bounces) {
@@ -77,8 +76,7 @@ export default {
 					'--row': row,
 					'--bounce-dur': `${bounceDur}s`,
 					'--bounce-dy1': `${bounces.dy1}%`,
-					'--bounce-dy2': `${bounces.dy2}%`,
-					'--bounce-dy3': `${bounces.dy3}%`
+					'--bounce-dy2': `${bounces.dy2}%`
 				};
 			})
 		}
@@ -210,33 +208,25 @@ export default {
     animation-timing-function: ease-in;
     opacity: 0;
   }
-  38% {
+  40% {
     transform: translateY(0rem);
     animation-timing-function: ease-out;
     opacity: 1;
   }
-  55% {
+  60% {
     transform: translateY(var(--bounce-dy1));
     animation-timing-function: ease-in;
   }
-  72% {
+  78% {
     transform: translateY(0rem);
     animation-timing-function: ease-out;
   }
-  81% {
+  87% {
     transform: translateY(var(--bounce-dy2));
     -webkit-animation-timing-function: ease-in;
   }
-  90% {
-    transform: translateY(0rem);
-    animation-timing-function: ease-out;
-  }
-  95% {
-    transform: translateY(var(--bounce-dy3));
-    animation-timing-function: ease-in;
-  }
   100% {
-    transform: translateY(0);
+    transform: translateY(0rem);
     animation-timing-function: ease-out;
   }
 }
