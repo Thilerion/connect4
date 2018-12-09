@@ -2,14 +2,6 @@
 	<div id="app">
 		<header>
 			<h1>Connect4</h1>
-			<div class="menu-container">
-				<C4Menu
-					@undoMove="undoMove"
-					@resetAll="resetAll"
-					@newGame="newGame"
-					@openSettings="uiSettings.showSettings = true"
-				/>
-			</div>
 		</header>
 		<C4Scoreboard
 			v-bind="{
@@ -40,7 +32,16 @@
 					v-bind="{gameSettings, players, uiSettings}"
 				/>
 			</transition>
+			<div class="menu-container">
+				<C4Menu
+					@undoMove="undoMove"
+					@resetAll="resetAll"
+					@newGame="newGame"
+					@openSettings="uiSettings.showSettings = true"
+				/>
+			</div>
 		</div>
+		
 	</div>
 </template>
 
@@ -204,12 +205,12 @@ h1 {
 .menu-container {
 	position: absolute;
 	right: 0;
-	top: 0;
+	transform: translateX(100%);
 }
 
 .main {
 	position: relative;
-	display: inline-block;
+	display: inline-flex;
 	padding: 1rem;
 	margin-top: 1rem;
 }

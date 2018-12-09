@@ -44,11 +44,12 @@ export default {
 
 <style scoped>
 .menu {
-	padding: 0.75rem;
+	padding: 0;
+	padding-right: 0.5rem;
 	min-width: 15rem;
 	display: flex;
 	flex-direction: column;
-	text-align: right;
+	text-align: left;
 	margin: 0;
 }
 
@@ -66,6 +67,7 @@ export default {
 	display: inline-flex;
 	align-items: center;
 	justify-content: flex-end;
+	flex-direction: row-reverse;
 	opacity: 0.5;
 	transition: opacity .25s ease, background .15s ease, color .15s ease;
 }
@@ -86,7 +88,7 @@ export default {
 
 .btn-text {
 	display: inline-block;
-	margin-right: 1rem;
+	margin-left: 1rem;
 	color: inherit;
 	font-weight: 500;
 	letter-spacing: 0.5px;
@@ -98,6 +100,6 @@ export default {
 
 .btn-text-enter, .btn-text-leave-to {
 	opacity: 0;
-	transform: translateX(-0.5rem);
+	transform: translateX(0.5rem);
 }
 </style>
