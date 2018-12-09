@@ -63,7 +63,7 @@ export default class Game {
 		return this;
 	}
 
-	doMove(col) {
+	doMove(col, rememberWinningPieces = false) {
 		if (this.gameEnd) {
 			console.warn("Can't make a move when the game is over.");
 			return;
@@ -79,7 +79,7 @@ export default class Game {
 		this.addPiece(col, row, this.currentPlayer);
 		this.history.push([col, row]);
 
-		const winner = this.checkWin(col, row);
+		const winner = this.checkWin(col, row, rememberWinningPieces);
 		if (winner) {
 			// console.warn(`Player ${winner} has won!`);
 			this.gameEnd = true;
@@ -110,7 +110,7 @@ export default class Game {
 		return this.nextPlayer();
 	}
 
-	checkWin(col, row, rememberWinningPieces = true) {
+	checkWin(col, row, rememberWinningPieces = false) {
 		
 		if (!rememberWinningPieces) {
 			const win = this.checkHorizontals(col, row, false) ||

@@ -143,7 +143,8 @@ export default {
 			this.resetScore();
 		},
 		doMove(col) {
-			this.Game.doMove(col);
+			const rememberWinningPieces = true;
+			this.Game.doMove(col, rememberWinningPieces);
 		},
 		undoMove() {
 			this.Game.undoMove();
