@@ -104,10 +104,13 @@ export default {
 	width: 110px;
 	box-sizing: content-box;
 
+	--half-piece-size: 40px;
+	--piece-gradient-size: 36px;
+
 	--col-bg-main: var(--color-board);
-	--piece-size: 86px;
-	--piece-gradient-size: 38px;
-	--piece-gradient-size2: 39px;
+	--piece-size: calc(var(--half-piece-size) * 2);
+	--piece-gradient-size2: calc(var(--piece-gradient-size) + 1px);
+	--inner-piece-size: calc(var(--piece-gradient-size) * 1.6);
 }
 
 .col.col-full {

@@ -48,8 +48,8 @@ export default {
 }
 
 .piece-inner {
-	width: 72.5%;
-	height: 72.5%;
+	width: var(--inner-piece-size);
+	height: var(--inner-piece-size);
 	border-radius: 50%;
 	margin: auto;
 	box-shadow: inset -1px 0.75px 5px -1px rgba(0, 0, 0, 0.4), inset 1.5px -1px 1.5px -1px rgba(255, 255, 255, 0.35);
