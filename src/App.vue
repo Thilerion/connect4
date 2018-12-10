@@ -173,32 +173,36 @@ export default {
 html {
 	height: 100vh;
 	box-sizing: border-box;
-	--color-bg: #2E2944;
-	--color-bg-shadow: hsl(251, 25%, 19%);
-	--color-board: hsl(251, 20%, 25%);
-	--color-board-no-highlight: hsl(251, 19%, 26%);
-	--color-board-highlight: hsl(251, 16%, 29%);
-	--color-board-border-main: #282437;
-	--color-board-border-secondary: hsla(253, 21%, 18%, 0.6);
-	--color-p1: #4aa475;
-	--color-p2: #B94626;
-	--color-primary: #E2A02C;
-	--color-secondary: rgb(229, 210, 143);
-	--color-tertiary: rgb(233, 226, 203);
+
+	--c-text: hsl(47, 62%, 73%);
+	--c-text-light-1: hsl(46, 41%, 85%);
+	
+	--c-text-bright: hsl(38, 76%, 53%);
+
+	--c-main: hsl(251, 25%, 21%);
+	--c-main-light-1: hsl(251, 20%, 25%);
+	--c-main-light-2: hsl(251, 19%, 27%);
+	--c-main-light-3: hsl(251, 16%, 29%);
+	--c-main-dark-1: hsl(253, 21%, 21%);
+	--c-main-dark-2: hsl(253, 21%, 18%);
+
+	--c-p1: hsl(149, 38%, 47%);
+	--c-p2: hsl(13, 66%, 44%);
+	
 	font-size: 62.5%;
 }
 
 body {
 	min-height: 100vh;
 	margin: 0;
-	background-color: var(--color-bg);
-	color: var(--color-secondary);
+	background-color: var(--c-main);
+	color: var(--c-text);
 	font-family: Ubuntu, sans-serif;
 	font-size: 1.6rem;
 }
 
 h1 {
-	color: var(--color-primary);
+	color: var(--c-text-bright);
 	margin: 0;
 	font-size: 9.7rem;
 	letter-spacing: 0.1rem;

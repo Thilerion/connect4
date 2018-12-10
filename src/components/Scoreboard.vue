@@ -84,8 +84,8 @@ export default {
 .control-btn {
 	text-transform: uppercase;
 	background: none;
-	border: 2px solid var(--color-secondary);
-	color: var(--color-secondary);
+	border: 2px solid var(--c-text);
+	color: var(--c-text);
 	font-weight: 700;
 	border-radius: 3px;
 	font-size: 1.2rem;
@@ -98,8 +98,8 @@ export default {
 }
 
 .control-btn:hover {
-	background: var(--color-secondary);
-	color: var(--color-bg);
+	background: var(--c-text);
+	color: var(--c-main);
 }
 
 .player-score {
@@ -121,8 +121,8 @@ export default {
 .player-score.p1 {
 	margin-right: 1rem;
 	flex-direction: row;
-	border-color: var(--color-p1);
-	color: var(--color-p1);
+	border-color: var(--c-p1);
+	color: var(--c-p1);
 }
 
 .player-score.p1 .score {
@@ -142,20 +142,20 @@ export default {
 }
 
 .player-score.p1.active:not(.lose), .player-score.p1.win {
-	color: var(--color-bg);
-	background-color: var(--color-p1);
+	color: var(--c-main);
+	background-color: var(--c-p1);
 }
 
 .player-score.p2 {
 	margin-left: 1rem;
 	flex-direction: row-reverse;
-	border-color: var(--color-p2);
-	color: var(--color-p2);
+	border-color: var(--c-p2);
+	color: var(--c-p2);
 }
 
 .player-score.p2.active:not(.lose), .player-score.p2.win {
-	color: var(--color-bg);
-	background-color: var(--color-p2);
+	color: var(--c-main);
+	background-color: var(--c-p2);
 }
 
 .player-name {

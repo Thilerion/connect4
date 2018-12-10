@@ -87,7 +87,7 @@ export default {
 	width: 770px;
 	min-height: 100px;
 	padding: 1rem;
-	background-color: var(--color-board-highlight);
+	background-color: var(--c-main-light-2);
 	border-radius: 15px;
 	position: relative;
 	text-align: left;
@@ -109,7 +109,7 @@ input {
 
 label {
 	line-height: 2.8rem;
-	color: var(--color-tertiary);
+	color: var(--c-text-light-1);
 }
 
 .input-block {

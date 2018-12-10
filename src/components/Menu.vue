@@ -81,8 +81,8 @@ export default {
 }
 
 .menu-btn:hover {
-	background-color: var(--color-secondary);
-	color: var(--color-bg);
+	background-color: var(--c-text);
+	color: var(--c-main);
 }
 
 .btn-text {

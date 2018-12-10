@@ -57,10 +57,10 @@ export default {
 }
 
 .piece.piece-one {
-	background: var(--color-p1);
+	background: var(--c-p1);
 }
 
 .piece.piece-two {
-	background: var(--color-p2);
+	background: var(--c-p2);
 }
 </style>

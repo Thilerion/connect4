@@ -90,7 +90,7 @@ export default {
 	display: inline-flex;
 	overflow: hidden;
 	border-radius: 0 0 15px 15px;
-	border: 3px solid var(--color-board-border-main);
+	border: 3px solid var(--c-main-dark-2);
 	border-top-width: 0px;
 }
 
@@ -105,7 +105,8 @@ export default {
 	--half-piece-size: 40px;
 	--piece-gradient-size: 36px;
 
-	--col-bg-main: var(--color-board);
+	--col-bg-main: var(--c-main-light-1);
+
 	--piece-size: calc(var(--half-piece-size) * 2);
 	--piece-gradient-size2: calc(var(--piece-gradient-size) + 1px);
 	--inner-piece-size: calc(var(--piece-gradient-size) * 1.6);
@@ -116,11 +117,11 @@ export default {
 }
 
 .col:hover {
-	--col-bg-main: var(--color-board-highlight);
+	--col-bg-main: var(--c-main-light-3);
 }
 
 .col.col-full:hover {
-	--col-bg-main: var(--color-board-no-highlight);
+	--col-bg-main: var(--c-main-light-2);
 }
 
 .col::before, .col::after {
@@ -156,7 +157,7 @@ export default {
 	align-items: center;
 	border-width: 0 1px;
 	border-style: solid;
-	border-color: var(--color-board-border-secondary);
+	border-color: var(--c-main-dark-2);
 }
 
 .col:last-child .cell {
@@ -194,7 +195,7 @@ export default {
 		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 8px transparent;
 	}
 	to {
-		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 8px var(--color-primary);
+		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 8px var(--c-text-bright);
 	}
 }
 
