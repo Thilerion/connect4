@@ -107,12 +107,15 @@ export default {
 <style scoped>
 .grid-board {
 	/* TODO: set piece size on Piece component itself */
-	--piece-size: 8rem;
-	--cell-padding: 1rem;
+	/* Half piece size exists so the actual piece size can always be divided by two for centering */
+	--half-piece-size: 4rem;
+	--cell-padding: 1.2rem;
 
-	--piece-cutout-size: calc(var(--piece-size) * 0.9);
-	--cell-overlay-size: calc(var(--piece-cutout-size) / 2);
-	--cell-overlay-size2: calc(var(--cell-overlay-size) + 1px);
+	--piece-size: calc(var(--half-piece-size) * 2);
+
+	--piece-cutout-size: calc(var(--piece-size) - 1.2rem);
+	--cell-overlay-size: calc(var(--piece-cutout-size) / 2 - 1px);
+	--cell-overlay-size2: calc(var(--piece-cutout-size) / 2);
 	--inner-piece-size: calc(var(--piece-cutout-size) * 0.82);
 
 	--cell-size: calc(var(--piece-cutout-size) + 2 * var(--cell-padding));
