@@ -25,8 +25,19 @@
 						winningPieces
 					}"
 					@doMove="doMove"
-					v-if="!uiSettings.showSettings"
+					v-if="!uiSettings.showSettings && false"
 					key="show-board"
+				/>
+				<C4GridBoard
+					v-bind="{
+						cols,
+						rows,
+						board,
+						uiSettings,
+						winningPieces
+					}"
+					v-else-if="!uiSettings.showSettings"
+					key="show-grid-board"
 				/>
 				<C4Settings
 					v-else-if="uiSettings.showSettings" @closeSettings="uiSettings.showSettings = false"
@@ -54,6 +65,7 @@ import { SETTINGS, PLAYER_ONE, PLAYER_TWO, TIE, NO_PIECE, AI, HUMAN } from './li
 const gameSettings = { ...SETTINGS };
 
 import C4Board from './components/Board.vue';
+import C4GridBoard from './components/GridBoard.vue';
 import C4Scoreboard from './components/Scoreboard.vue';
 import C4Menu from './components/Menu.vue';
 import C4Settings from './components/Settings.vue';
@@ -62,6 +74,7 @@ export default {
 	name: "app",
 	components: {
 		C4Board,
+		C4GridBoard,
 		C4Scoreboard,
 		C4Menu,
 		C4Settings
