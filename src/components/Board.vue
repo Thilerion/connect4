@@ -93,7 +93,7 @@ export default {
 	/* border: 3px solid var(--c-main-dark-2); */
 	border-top-width: 0px;
 	background-color: var(--c-main);
-	box-shadow: -1px 1px 12px 0px rgba(0, 0, 0, 0.24);
+	box-shadow: -1px 5px 42px -3px rgba(0, 0, 0, 0.34);
 }
 
 .col {
