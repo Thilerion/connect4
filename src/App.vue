@@ -141,7 +141,7 @@ export default {
 	},
 	methods: {
 		newGame() {
-			this.Game = new Connect4Game(this.settings);
+			this.Game = new Connect4Game(this.gameSettings);
 		},
 		resetScore() {
 			for (const player of Object.values(this.players)) {
