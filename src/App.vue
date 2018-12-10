@@ -36,6 +36,7 @@
 						uiSettings,
 						winningPieces
 					}"
+					@doMove="doMove"
 					v-else-if="!uiSettings.showSettings"
 					key="show-grid-board"
 				/>

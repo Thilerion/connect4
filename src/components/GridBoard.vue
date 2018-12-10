@@ -2,14 +2,24 @@
 	<div
 		class="grid-board"
 		:style="[gridCols, gridRows]"
+		@click="$emit('doMove', 1)"
 	>
-		<div
-			v-for="cell in nCells"
-			:key="cell"
-			class="cell-overlay">
-			<div class="cell-overlay-shadow">
 
-			</div>
+		<Piece 
+			v-for="(p, index) in flatBoard"
+			:key="`piece-${index}`"
+			v-if="p.cell !== noPiece"
+			:style="{'grid-column': p.x + 1, 'grid-row': rows - p.y}"
+			:player="p.cell"
+		/>
+
+		<div
+			v-for="(cell, i) in nCells"
+			:key="cell"
+			class="cell-overlay"
+			:style="showColsRows[i]"		
+		>
+			<div class="cell-overlay-shadow"></div>
 		</div>
 	</div>
 </template>
@@ -34,8 +44,26 @@ export default {
 		}
 	},
 	computed: {
+		flatBoard() {
+			return this.board.map((col, x) => {
+				return col.map((cell, y) => {
+					return {cell, x, y};
+				})
+			}).flat();
+		},
 		nCells() {
 			return this.cols * this.rows;
+		},
+		showColsRows() {
+			return new Array(this.nCells).fill(0).map((cell, index) => {
+				const col = (index % this.cols) + 1;
+				const row = Math.ceil((index - col) / this.cols) + 1;
+				console.log({col, row})
+				return {
+					'grid-column': `${col} / span 1`,
+					'grid-row': `${row} / span 1`
+				};
+			})
 		},
 		gridCols() {
 			return {
@@ -46,6 +74,11 @@ export default {
 			return {
 				'--grid-rows': this.rows
 			};
+		}
+	},
+	methods: {
+		registerBoardClick(e) {
+			console.log(e);
 		}
 	}
 }
@@ -63,6 +96,7 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 2;
 }
 
 .cell-overlay-shadow {
