@@ -1,11 +1,12 @@
 <template>
+<div class="piece-wrapper">
 	<div
 		class="piece"
 		:class="[playerClass]"
-		:style="pieceSize"
 	>
 		<div v-if="useDepth" class="piece-inner"></div>
 	</div>
+</div>
 </template>
 
 <script>
@@ -34,11 +35,17 @@ export default {
 </script>
 
 <style scoped>
+.piece-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .piece {
 	/* transform: translateY(0); */
 	will-change: transform;
-	/* width: var(--piece-size);
-	height: var(--piece-size); */
+	width: var(--piece-size);
+	height: var(--piece-size);
 	border-radius: 50%;
 	display: flex;
 }
