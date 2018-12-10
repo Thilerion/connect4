@@ -89,9 +89,11 @@ export default {
 	position: relative;
 	display: inline-flex;
 	overflow: hidden;
-	border-radius: 0 0 15px 15px;
-	border: 3px solid var(--c-main-dark-2);
+	border-radius: 4px 4px 15px 15px;
+	/* border: 3px solid var(--c-main-dark-2); */
 	border-top-width: 0px;
+	background-color: var(--c-main);
+	box-shadow: -1px 1px 12px 0px rgba(0, 0, 0, 0.24);
 }
 
 .col {

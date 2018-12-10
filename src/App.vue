@@ -179,7 +179,7 @@ html {
 	
 	--c-text-bright: hsl(38, 76%, 53%);
 
-	--c-main: hsl(251, 25%, 21%);
+	--c-main: #2d2842;
 	--c-main-light-1: hsl(251, 20%, 25%);
 	--c-main-light-2: hsl(251, 19%, 27%);
 	--c-main-light-3: hsl(251, 16%, 29%);
@@ -188,7 +188,7 @@ html {
 
 	--c-p1: hsl(149, 38%, 47%);
 	--c-p2: hsl(13, 66%, 44%);
-	
+
 	font-size: 62.5%;
 }
 
@@ -196,6 +196,7 @@ body {
 	min-height: 100vh;
 	margin: 0;
 	background-color: var(--c-main);
+	background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0zm10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm20 0a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM10 37a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm10-17h20v20H20V20zm10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14z' fill='%23403b56' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
 	color: var(--c-text);
 	font-family: Ubuntu, sans-serif;
 	font-size: 1.6rem;
