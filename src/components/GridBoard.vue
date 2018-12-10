@@ -26,6 +26,7 @@
 				v-for="row in rows"
 				:key="row"
 				class="cell-overlay"
+				:class="{'is-winner': !!winningPieces.find(([winX, winY]) => col - 1 === winX && row - 1 === winY)}"
 			>
 				<div class="cell-overlay-shadow"></div>
 			</div>
@@ -113,13 +114,15 @@ export default {
 	--piece-size: 80px;
 	--inner-piece-size: calc(35px * 1.6);
 
+	background-color: var(--c-main);
 	overflow: hidden;
 }
 
 .col-overlay {
 	z-index: 2;
 	display: flex;
-	flex-direction: column;
+	flex-direction: column-reverse;
+	cursor: pointer;
 }
 
 .cell-overlay {
@@ -148,6 +151,22 @@ export default {
 	width: calc(35px * 2);
 	height: calc(35px * 2);
 	box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2);
+}
+
+.is-winner > .cell-overlay-shadow {
+	animation: cell-win 1s infinite alternate .8s;
+}
+
+@keyframes cell-win {
+	from {
+		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 5px transparent;
+	}
+	80% {
+		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 5px var(--c-text);
+	}
+	to {
+		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 5px var(--c-text);
+	}
 }
 
 .fall-piece-enter-active {
