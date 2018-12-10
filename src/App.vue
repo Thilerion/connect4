@@ -239,10 +239,13 @@ h1 {
 }
 
 .main {
+	background-color: var(--c-main-light-1);
 	position: relative;
 	display: inline-flex;
-	padding: 1rem 0;
-	margin-top: 1rem;
+	padding: 2rem 1rem 2rem;
+	margin-top: 2rem;
+	border-radius: 5px 5px 15px 15px;
+	box-shadow: -1px 0.5rem 4rem -0.3rem rgba(0, 0, 0, 0.34);
 }
 
 .fade-in-enter-active, .fade-in-leave-active {

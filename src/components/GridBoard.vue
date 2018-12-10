@@ -106,13 +106,20 @@ export default {
 
 <style scoped>
 .grid-board {
-	display: grid;
-	grid-template-columns: repeat(var(--grid-cols), 100px);
-	grid-template-rows: repeat(var(--grid-rows), 100px);
-
 	/* TODO: set piece size on Piece component itself */
-	--piece-size: 80px;
-	--inner-piece-size: calc(35px * 1.6);
+	--piece-size: 8rem;
+	--cell-padding: 1rem;
+
+	--piece-cutout-size: calc(var(--piece-size) * 0.9);
+	--cell-overlay-size: calc(var(--piece-cutout-size) / 2);
+	--cell-overlay-size2: calc(var(--cell-overlay-size) + 1px);
+	--inner-piece-size: calc(var(--piece-cutout-size) * 0.82);
+
+	--cell-size: calc(var(--piece-cutout-size) + 2 * var(--cell-padding));
+
+	display: grid;
+	grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
+	grid-template-rows: repeat(var(--grid-rows), var(--cell-size));
 
 	background-color: var(--c-main);
 	overflow: hidden;
@@ -123,13 +130,16 @@ export default {
 	display: flex;
 	flex-direction: column-reverse;
 	cursor: pointer;
+	border-radius: 5px;
 }
 
 .cell-overlay {
+	/* Needed to prevent strange empty spaces between cells .. */
+	transform: scale(1.000001);
 	background: radial-gradient(
 		circle at center,
-		transparent 34px,
-		var(--c-main-light-1) 35px
+		transparent var(--cell-overlay-size),
+		var(--c-main-light-1) var(--cell-overlay-size2)
 	);
 	flex: 1 1 auto;
 	display: inline-flex;
@@ -141,15 +151,15 @@ export default {
 .col-overlay:hover > .cell-overlay {
 	background: radial-gradient(
 		circle at center,
-		transparent 34px,
-		var(--c-main-light-2) 35px
+		transparent var(--cell-overlay-size),
+		var(--c-main-light-2) var(--cell-overlay-size2)
 	);
 }
 
 .cell-overlay-shadow {
 	border-radius: 50%;
-	width: calc(35px * 2);
-	height: calc(35px * 2);
+	width: var(--piece-cutout-size);
+	height: var(--piece-cutout-size);
 	box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2);
 }
 
