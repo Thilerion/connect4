@@ -3,8 +3,8 @@
 		class="grid-board"
 		tag="div"
 		:style="[gridCols, gridRows]"
-		name="fall-piece"
-	>
+		name="fall-piece">
+		
 		<Piece
 			v-for="(p, index) in flatBoard"
 			v-if="p.cell !== noPiece"
@@ -12,30 +12,22 @@
 			:style="pieceGridPosition(p)"
 			:player="p.cell"
 			:useDepth="uiSettings.pieceDepth"
-			class="grid-piece"
-		/>
+			class="grid-piece"/>
 
-		<div
-			class="col-overlay"
+		<GridBoardOverlay 
 			v-for="col in cols"
 			:key="`col-${col}`"
-			:style="{'grid-column': `${col} / span 1`, 'grid-row': '1 / -1'}"
-			@click="$emit('doMove', col - 1)"
-		>
-			<div
-				v-for="row in rows"
-				:key="row"
-				class="cell-overlay"
-				:class="{'is-winner': !!winningPieces.find(([winX, winY]) => col - 1 === winX && row - 1 === winY)}"
-			>
-				<div class="cell-overlay-shadow"></div>
-			</div>
-		</div>
+			:rows="rows"
+			:col="col"
+			v-bind="{rows, col, winningPieces}"
+			@click.native="$emit('doMove', col - 1)"/>
+
 	</transition-group>
 </template>
 
 <script>
 import Piece from "./Piece.vue";
+import GridBoardOverlay from './GridBoardOverlay.vue';
 
 import {
 	PLAYER_ONE,
@@ -48,7 +40,8 @@ import {
 export default {
 	props: ["cols", "rows", "board", "uiSettings", "winningPieces"],
 	components: {
-		Piece
+		Piece,
+		GridBoardOverlay
 	},
 	data() {
 		return {
@@ -126,60 +119,6 @@ export default {
 
 	background-color: var(--c-main);
 	overflow: hidden;
-}
-
-.col-overlay {
-	z-index: 2;
-	display: flex;
-	flex-direction: column-reverse;
-	cursor: pointer;
-	border-radius: 5px;
-}
-
-.cell-overlay {
-	/* Needed to prevent strange empty spaces between cells .. */
-	transform: scale(1.000001);
-	background: radial-gradient(
-		circle at center,
-		transparent var(--cell-overlay-size),
-		var(--c-main-light-1) var(--cell-overlay-size2)
-	);
-	flex: 1 1 auto;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 2;
-}
-
-.col-overlay:hover > .cell-overlay {
-	background: radial-gradient(
-		circle at center,
-		transparent var(--cell-overlay-size),
-		var(--c-main-light-2) var(--cell-overlay-size2)
-	);
-}
-
-.cell-overlay-shadow {
-	border-radius: 50%;
-	width: var(--piece-cutout-size);
-	height: var(--piece-cutout-size);
-	box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2);
-}
-
-.is-winner > .cell-overlay-shadow {
-	animation: cell-win 1s infinite alternate .8s;
-}
-
-@keyframes cell-win {
-	from {
-		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 5px transparent;
-	}
-	80% {
-		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 5px var(--c-text);
-	}
-	to {
-		box-shadow: inset -1px 1px 8px 2px rgba(0, 0, 0, 0.2), inset 0 0 0px 5px var(--c-text);
-	}
 }
 
 .fall-piece-enter-active {
